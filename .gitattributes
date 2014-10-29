@@ -1,0 +1,36 @@
+*.doc	diff=astextplain
+*.DOC	diff=astextplain
+*.docx	diff=astextplain
+*.DOCX	diff=astextplain
+*.dot	diff=astextplain
+*.DOT	diff=astextplain
+*.pdf	diff=astextplain
+*.PDF	diff=astextplain
+*.rtf	diff=astextplain
+*.RTF	diff=astextplain
+
+*.jpg binary
+*.png binary
+*.gif binary
+*.svg binary
+
+# Ensures that all the text files line endings are normalized to LF when stored in repository
+# and converted to CRLF when checked out to working dir.
+# Needs core.eof=crlf on local machine to work properly
+* text=auto
+
+*.cs text diff=csharp 
+*.html text
+*.htm text
+*.css text
+*.scss text
+*.sass text
+*.less text
+*.js text
+*.sql text
+*.ps1 text
+*.sh text
+
+*.csproj text
+*.dbproj text
+*.sln text

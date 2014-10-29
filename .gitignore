@@ -1,0 +1,137 @@
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#nuget
+packages/
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.eto
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+#MonoDevelop
+*.pidb
+*.userprefs
+
+#Tooling
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+
+#Project files
+[Bb]uild/
+
+#Subversion files
+.svn
+
+# Office Temp Files
+~$*
+
+#Git specific files
+*.orig
+
+#ncrunch
+*ncrunch*
+*crunch*.local.xml
+
+# visual studio database projects
+*.dbmdl
+
+
+# /
+/@Stuff
+/TestCoverage
+
+# /Source/
+/Source/migrate_host_down.cmd
+/Source/migrate_client_down.cmd
+/Source/migrate_tenants_down.cmd
+/Source/migrate_tenant_down.cmd
+/Source/System Volume Information
+/Source/migrate_files_down.cmd
+
+# /Source/BuildScripts/
+/Source/BuildScripts/*.fbl6
+/Source/BuildScripts/*.fbpInf
+/Source/BuildScripts/ECXb_BI.fbl6
+/Source/BuildScripts/ECXb_BI.fbpInf
+/Source/BuildScripts/ECXb_BI.fbz6
+/Source/BuildScripts/easyclaims_BI.fbz6
+
+# /Source/Client/
+/Source/Client/log.*
+/Source/Client/log.txt.*
+/Source/Client/_DebugTenants.config
+/Source/Client/DebugTenants.config
+!/Source/Client/Views/Debug/
+
+# /Source/Client/App_Data/
+/Source/Client/App_Data/CauseToLocationMap.xml
+/Source/Client/App_Data/DamageCategoryToCauseMap.xml
+
+# /Source/Host/
+/Source/Host/log.txt
+/Source/Host/log.txt.*
+
+# /Source/Host/App_Data/
+/Source/Host/App_Data/CauseToLocationMap.xml
+/Source/Host/App_Data/DamageCategoryToCauseMap.xml
+
+# /Tools/DeploymentScripts/
+/Tools/DeploymentScripts/*.log
+/Tools/DeploymentScripts/deploy-pkg
+/Tools/DeploymentScripts/deploy_ecx01-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx02-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx03-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx04-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx05-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx06-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx07-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx08-11-2011.txt
+/Tools/DeploymentScripts/deploy_ecx28-10-2011.txt
+/Tools/DeploymentScripts/deploy_ecx29-10-2011.txt
+/Tools/DeploymentScripts/deploy_ecx30-10-2011.txt
+/Tools/DeploymentScripts/deploy_ecx31-10-2011.txt
+/Tools/DeploymentScripts/job.pid
+/Tools/DeploymentScripts/deploy_ecx10-11-2011.txt
+/Tools/DeploymentScripts/deploy-pkgthbi
+/Source/Client/BackgroundService/Scalepoint.EasyClaims.ServiceHost.exe
+/Source/Client/BackgroundService/Scalepoint.EasyClaims.ServiceHost.pdb
+/Source/Host/BackgroundService/Scalepoint.EasyClaims.ServiceHost.exe
+/Source/Host/BackgroundService/Scalepoint.EasyClaims.ServiceHost.pdb
+Source/Host/log.*/Tools/XcExportTool/data
+
+# karma
+node_modules/
+Tools/karma/.tmp_*
+build
+build_*
+
+/Source/results.xml
+/Source/Reports
