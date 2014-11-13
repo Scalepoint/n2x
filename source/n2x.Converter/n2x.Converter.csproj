@@ -73,9 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\TestFixtureSetUpConverter.cs" />
+    <Compile Include="Converters\DocumentConverter.cs" />
+    <Compile Include="Converters\TestFixtureSetUp\SetUpMethodRemover.cs" />
+    <Compile Include="Converters\TestFixtureSetUp\TestDataCreator.cs" />
+    <Compile Include="Converters\TestFixtureSetUp\TestFixtureSetUpConverter.cs" />
     <Compile Include="IN2XConverter.cs" />
-    <Compile Include="Converters\IClassConverter.cs" />
+    <Compile Include="Converters\IConverter.cs" />
     <Compile Include="IDocumentConverterProvider.cs" />
     <Compile Include="N2XConverter.cs" />
     <Compile Include="DocumentConverterProvider.cs" />

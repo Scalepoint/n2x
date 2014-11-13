@@ -7,9 +7,9 @@ namespace n2x.Converter
     {
         public DocumentConverterProvider()
         {
-            DocumentConverters = new List<IClassConverter>();
+            DocumentConverters = new List<IConverter>();
         }
 
-        public IList<IClassConverter> DocumentConverters { get; private set; }
+        public IList<IConverter> DocumentConverters { get; private set; }
     }
 }

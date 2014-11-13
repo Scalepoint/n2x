@@ -6,6 +6,6 @@ namespace n2x.Converter
 {
     public interface IDocumentConverterProvider
     {
-        IList<IClassConverter> DocumentConverters { get; }
+        IList<IConverter> DocumentConverters { get; }
     }
 }
