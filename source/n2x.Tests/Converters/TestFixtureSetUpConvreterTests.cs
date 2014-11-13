@@ -20,7 +20,7 @@ namespace n2x.Tests.Converters
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
         protected SemanticModel SemanticModel { get; set; }
-        protected ClassDeclarationSyntax TestDataClass { get; set; }
+        protected ClassDeclarationSyntax TestDataClassSyntax { get; set; }
 
         public override void Context()
         {
@@ -50,11 +50,14 @@ namespace n2x.Tests.Converters
         public override void Because()
         {
             Result = _converter.Convert(Code.Document);
+
             Compilation = (CompilationUnitSyntax)Result.GetSyntaxRootAsync().Result;
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
             TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
-            TestDataClass = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().SingleOrDefault(c => c.Identifier.Text == "TestData");
+            TestDataClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().SingleOrDefault(c => c.Identifier.Text == "TestData");
             SemanticModel = Result.GetSemanticModelAsync().Result;
+
+            Console.Out.WriteLine("TestDataClassSyntax{0}", Compilation.ToFullString());
         }
        
     }
@@ -62,7 +65,7 @@ namespace n2x.Tests.Converters
     public class WhenConvertingConvertingTestFixtureSetUp : behaves_like_converting_TestFixtureSetUp_attribute
     {
         [Fact]
-        public void should_remove_methods_that_are_marked_with_TestFixtureSetUp_attribute_from_original_class()
+        public void should_remove_TestFixtureSetUp_method_from_test_class()
         {
             var methods = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>();
             var hasTestFixtureSetupMethods = methods.Any(method => method
@@ -76,7 +79,31 @@ namespace n2x.Tests.Converters
         [Fact]
         public void should_create_test_data_class()
         {
-            Assert.NotNull(TestDataClass);
+            Assert.NotNull(TestDataClassSyntax);
+        }
+
+        [Fact]
+        public void should_add_TestFixtureSetUp_method_to_test_data_class()
+        {
+            var methods = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>();
+            var hasTestFixtureSetupMethod = methods.Any(method => method.Identifier.Text == "TestFixtureSetUp");
+
+            Assert.True(hasTestFixtureSetupMethod);
+        }
+
+        [Fact]
+        public void should_remove_TestFixtureSetUp_attribute_from_test_data_clas_setup_method()
+        {
+            var setUpMethod = TestDataClassSyntax.Members
+                .OfType<MethodDeclarationSyntax>()
+                .Single(m => m.Identifier.Text == "TestFixtureSetUp");
+
+            var hasTestFixtureSetupAttribute = setUpMethod
+                .AttributeLists
+                .SelectMany(a => a.Attributes)
+                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute());
+
+            Assert.False(hasTestFixtureSetupAttribute);
         }
     }
 }

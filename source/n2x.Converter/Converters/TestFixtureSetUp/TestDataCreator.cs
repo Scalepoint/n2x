@@ -28,7 +28,10 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
                 {
                     var testDataClass = SyntaxFactory.ClassDeclaration(@class.Identifier.ValueText + "Data")
                         .WithModifiers(@class.Modifiers)
-                        .WithMembers(SyntaxFactory.List<MemberDeclarationSyntax>(new[] { method }))
+                        .WithMembers(SyntaxFactory.List<MemberDeclarationSyntax>(new[]
+                        {
+                            method.WithAttributeLists(SyntaxFactory.List<AttributeListSyntax>())
+                        }))
                         .NormalizeWhitespace();
 
                     testDataClasses.Add(testDataClass);

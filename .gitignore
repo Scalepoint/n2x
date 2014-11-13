@@ -135,3 +135,5 @@ build_*
 
 /Source/results.xml
 /Source/Reports
+
+/Source/*.sln.ide
