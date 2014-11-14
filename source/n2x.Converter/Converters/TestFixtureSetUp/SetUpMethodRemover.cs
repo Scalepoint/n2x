@@ -18,7 +18,7 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
                 var methods = @class.Members.OfType<MethodDeclarationSyntax>()
                     .Where(m => m.AttributeLists
                         .SelectMany(a => a.Attributes)
-                        .Any(a => ModelExtensions.GetTypeInfo(semanticModel, a).Type.IsTestFixtureSetUpAttribute()))
+                        .Any(a => semanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute()))
                     .ToList();
 
                 fixtureSetUpMethods.AddRange(methods);

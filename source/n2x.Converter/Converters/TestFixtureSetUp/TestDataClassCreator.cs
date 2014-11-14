@@ -7,32 +7,24 @@ using n2x.Converter.Utils;
 
 namespace n2x.Converter.Converters.TestFixtureSetUp
 {
-    public class TestDataCreator : IConverter
+    public class TestDataClassCreator : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
             var result = root;
 
             var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
-            var fixtureSetUpMethods = new List<MethodDeclarationSyntax>();
             var testDataClasses = new List<ClassDeclarationSyntax>();
             foreach (var @class in classes)
             {
-                fixtureSetUpMethods = @class.Members.OfType<MethodDeclarationSyntax>()
-                    .Where(m => m.AttributeLists
+                var hasFixtureSetUpMethod = @class.Members.OfType<MethodDeclarationSyntax>()
+                    .Any(m => m.AttributeLists
                         .SelectMany(a => a.Attributes)
-                        .Any(a => ModelExtensions.GetTypeInfo(semanticModel, a).Type.IsTestFixtureSetUpAttribute()))
-                    .ToList();
+                        .Any(a => ModelExtensions.GetTypeInfo(semanticModel, a).Type.IsTestFixtureSetUpAttribute()));
 
-                foreach (var method in fixtureSetUpMethods)
+                if (hasFixtureSetUpMethod)
                 {
-                    var testDataClass = SyntaxFactory.ClassDeclaration(@class.Identifier.ValueText + "Data")
-                        .WithModifiers(@class.Modifiers)
-                        .WithMembers(SyntaxFactory.List<MemberDeclarationSyntax>(new[]
-                        {
-                            method.WithAttributeLists(SyntaxFactory.List<AttributeListSyntax>())
-                        }))
-                        .NormalizeWhitespace();
+                    var testDataClass = CreateTestDataClassDeclaration(@class);
 
                     testDataClasses.Add(testDataClass);
                 }
@@ -45,6 +37,13 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
             }
 
             return result;
+        }
+
+        private static ClassDeclarationSyntax CreateTestDataClassDeclaration(ClassDeclarationSyntax @class)
+        {
+            return SyntaxFactory.ClassDeclaration(@class.Identifier.ValueText + "Data")
+                .WithModifiers(@class.Modifiers)
+                .NormalizeWhitespace();
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using n2x.Converter.Converters;
 using n2x.Converter.Converters.TestFixtureSetUp;
 using n2x.Converter.Utils;
 using n2x.Tests.Utils;
@@ -41,7 +40,8 @@ namespace n2x.Tests.Converters
                         public void should_do_the_magic()
                         {
                         }
-                    }
+
+                     }
                 }");
 
             _converter = new TestFixtureSetUpConverter();
@@ -57,7 +57,7 @@ namespace n2x.Tests.Converters
             TestDataClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().SingleOrDefault(c => c.Identifier.Text == "TestData");
             SemanticModel = Result.GetSemanticModelAsync().Result;
 
-            Console.Out.WriteLine("TestDataClassSyntax{0}", Compilation.ToFullString());
+            Console.Out.WriteLine("{0}", Compilation.ToFullString());
         }
        
     }
@@ -83,27 +83,106 @@ namespace n2x.Tests.Converters
         }
 
         [Fact]
-        public void should_add_TestFixtureSetUp_method_to_test_data_class()
+        public void should_add_IUseFixture_implementation_to_test_class()
         {
-            var methods = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>();
-            var hasTestFixtureSetupMethod = methods.Any(method => method.Identifier.Text == "TestFixtureSetUp");
+            Assert.NotNull(TestClassSyntax.BaseList);
+            var hasIUseFixtureInterface = TestClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.IsIUseFixtureInterfaceOf("n2x.TestData"));
 
-            Assert.True(hasTestFixtureSetupMethod);
+            Assert.True(hasIUseFixtureInterface);
         }
 
         [Fact]
-        public void should_remove_TestFixtureSetUp_attribute_from_test_data_clas_setup_method()
+        public void should_add_SetFixture_method_implementation()
         {
-            var setUpMethod = TestDataClassSyntax.Members
-                .OfType<MethodDeclarationSyntax>()
-                .Single(m => m.Identifier.Text == "TestFixtureSetUp");
+            var setFixtureMethod = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>()
+                .SingleOrDefault(m => m.Identifier.Text == "SetFixture");
 
-            var hasTestFixtureSetupAttribute = setUpMethod
+            Assert.NotNull(setFixtureMethod);
+            Assert.Equal(setFixtureMethod.ParameterList.Parameters.Count, 1);
+            Assert.Equal(setFixtureMethod.ParameterList.Parameters.First().ToString(), "TestData data");
+        }
+
+        [Fact]
+        public void should_add_TestData_property()
+        {
+            var testDataProperty = TestClassSyntax.Members.OfType<PropertyDeclarationSyntax>()
+                .SingleOrDefault(p => p.Identifier.Text == "TestData");
+
+            Assert.NotNull(testDataProperty);
+        }
+
+        [Fact]
+        public void should_assign_TestData_property_in_SetFixture_method()
+        {
+            var setFixtureMethod = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>()
+                .Single(m => m.Identifier.Text == "SetFixture");
+
+            Assert.Equal(setFixtureMethod.Body.ToString(),
+                @"{
+            TestData = data;
+        }");
+        }
+
+        [Fact]
+        public void should_move_TestFixtureSetUp_method_to_test_data_class_ctor()
+        {
+            var ctor = TestDataClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault();
+
+            Assert.NotNull(ctor);
+            Assert.Equal(ctor.Body.ToString(),
+                @"{
+            var i = 10;
+        }");
+        }
+
+        [Fact]
+        public void should_remove_TestFixtureSetUp_attribute_from_test_data_class_ctor()
+        {
+            var ctor = TestDataClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().Single();
+
+            var hasTestFixtureSetupAttribute = ctor
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
                 .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute());
 
             Assert.False(hasTestFixtureSetupAttribute);
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            Assert.Equal(Compilation.ToFullString(),
+@"using NUnit.Framework;
+
+namespace n2x
+{
+    public class TestData
+    {
+        public TestData()
+        {
+            var i = 10;
+        }
+    }
+
+    public class Test : Xunit.IUseFixture<TestData>
+    {
+        [Test]
+        public void should_do_the_magic()
+        {
+        }
+
+        public TestData TestData
+        {
+            get;
+            set;
+        }
+
+        public void SetFixture(TestData data)
+        {
+            TestData = data;
+        }
+    }
+}");
         }
     }
 }

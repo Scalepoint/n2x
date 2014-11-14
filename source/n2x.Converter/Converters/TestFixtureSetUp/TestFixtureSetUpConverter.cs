@@ -6,7 +6,9 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
     {
         protected override IEnumerable<IConverter> GetConverters()
         {
-            yield return new TestDataCreator();
+            yield return new TestDataClassCreator();
+            yield return new IUseFixtureImplementor();
+            yield return new SetUpMethodMover();
             yield return new SetUpMethodRemover();
         }
     }

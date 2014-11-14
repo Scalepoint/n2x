@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.CodeAnalysis.Text;
 using NUnit.Framework;
+using Xunit;
 
 namespace n2x.Tests.Utils
 {
@@ -45,6 +46,13 @@ namespace n2x.Tests.Utils
             {
                 throw new Exception("Could not obtain NUnit assembly reference path");
             }
+
+            var xUnitAssemblyPath = Path.GetDirectoryName(typeof (FactAttribute).Assembly.Location);
+            if (xUnitAssemblyPath == null)
+            {
+                throw new Exception("Could not obtain NUnit assembly reference path");
+            }
+
             //Compilation = CSharpCompilation
             //    .Create("test")
             //    .AddReferences(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "mscorlib.dll")))
@@ -74,6 +82,9 @@ namespace n2x.Tests.Utils
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.Core.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(nUnitAssemblyPath, "nunit.framework.dll")))
+                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.dll")))
+                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.extensions.dll")))
+
                 .AddDocument("code", SourceText.From(text));
         }
     }

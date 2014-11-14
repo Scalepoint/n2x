@@ -6,7 +6,8 @@ namespace n2x.Converter.Utils
     {
         public static bool IsTestFixtureSetUpAttribute(this ITypeSymbol typeSymbol)
         {
-            return typeSymbol.ToDisplayString() == "NUnit.Framework.TestFixtureSetUpAttribute";
+            return !typeSymbol.IsErrorType() &&
+                typeSymbol.ToDisplayString() == "NUnit.Framework.TestFixtureSetUpAttribute";
         }
     }
 }
