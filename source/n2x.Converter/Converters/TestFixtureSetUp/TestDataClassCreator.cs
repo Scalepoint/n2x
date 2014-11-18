@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,32 +10,19 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
-            var result = root;
+            var newTestDataClasses = root
+                .DescendantNodes()
+                .OfType<ClassDeclarationSyntax>()
+                .Where(c => c.HasTestSetUpMethods(semanticModel))
+                .Select(CreateTestDataClassDeclaration)
+                .ToList();
 
-            var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
-            var testDataClasses = new List<ClassDeclarationSyntax>();
-            foreach (var @class in classes)
+            if (newTestDataClasses.Any())
             {
-                var hasFixtureSetUpMethod = @class.Members.OfType<MethodDeclarationSyntax>()
-                    .Any(m => m.AttributeLists
-                        .SelectMany(a => a.Attributes)
-                        .Any(a => ModelExtensions.GetTypeInfo(semanticModel, a).Type.IsTestFixtureSetUpAttribute()));
-
-                if (hasFixtureSetUpMethod)
-                {
-                    var testDataClass = CreateTestDataClassDeclaration(@class);
-
-                    testDataClasses.Add(testDataClass);
-                }
+                return root.InsertNodesBefore(root.FirstClass(), newTestDataClasses);
             }
 
-            if (testDataClasses.Any())
-            {
-                var firstClass = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-                return result.InsertNodesBefore(firstClass, testDataClasses);
-            }
-
-            return result;
+            return root;
         }
 
         private static ClassDeclarationSyntax CreateTestDataClassDeclaration(ClassDeclarationSyntax @class)
