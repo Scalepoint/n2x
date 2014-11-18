@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DocumentConverter.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\IUseFixtureImplementor.cs" />
+    <Compile Include="Converters\TestFixtureSetUp\UseFixtureImplementor.cs" />
     <Compile Include="Converters\TestFixtureSetUp\SetUpMethodMover.cs" />
     <Compile Include="Converters\TestFixtureSetUp\SetUpMethodRemover.cs" />
     <Compile Include="Converters\TestFixtureSetUp\TestDataClassCreator.cs" />

@@ -7,31 +7,16 @@ using n2x.Converter.Utils;
 
 namespace n2x.Converter.Converters.TestFixtureSetUp
 {
-    public class IUseFixtureImplementor : IConverter
+    public class UseFixtureImplementor : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
-            var result = root;
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
-            foreach (var @class in result.Classes())
+            foreach (var @class in root.Classes())
             {
-                var hasFixtureSetUpMethod = @class.Members.OfType<MethodDeclarationSyntax>()
-                    .Any(m => m.AttributeLists
-                        .SelectMany(a => a.Attributes)
-                        .Any(a => ModelExtensions.GetTypeInfo(semanticModel, a).Type.IsTestFixtureSetUpAttribute()));
-
-                if (hasFixtureSetUpMethod)
+                if (@class.HasTestSetUpMethods(semanticModel))
                 {
-                    var baseTypes = SyntaxFactory.SeparatedList<TypeSyntax>(new SyntaxNodeOrToken[]
-                    {
-                        GetIUseFixtureDeclarationSyntax(@class)
-                    });
-
-                    if (@class.BaseList != null)
-                    {
-                        baseTypes.AddRange(@class.BaseList.Types);
-                    }
-
+                    var baseType = GetIUseFixtureDeclarationSyntax(@class);
                     var newMembers = new MemberDeclarationSyntax[]
                     {
                         GetTestDataPropertyDeclaration(@class),
@@ -39,28 +24,24 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
                     };
 
                     var newClass = @class
-                        .WithBaseList(SyntaxFactory.BaseList(baseTypes))
+                        .AddBaseListTypes(baseType)
                         .AddMembers(newMembers);
+
                     dict.Add(@class, newClass);
                 }
             }
 
             if (dict.Any())
             {
-                return result.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
             }
 
-            return result;
+            return root;
         }
 
-        private static NameSyntax GetIUseFixtureDeclarationSyntax(ClassDeclarationSyntax @class)
+        private static TypeSyntax GetIUseFixtureDeclarationSyntax(ClassDeclarationSyntax @class)
         {
-            return SyntaxFactory.QualifiedName(SyntaxFactory.IdentifierName(@"Xunit"), 
-                SyntaxFactory.GenericName(SyntaxFactory.Identifier(@"IUseFixture"))
-                    .WithTypeArgumentList(
-                    SyntaxFactory.TypeArgumentList(
-                        SyntaxFactory.SingletonSeparatedList<TypeSyntax>(
-                            SyntaxFactory.IdentifierName(@class.Identifier.Text + "Data")))));
+            return SyntaxFactory.ParseTypeName(string.Format("Xunit.IUseFixture<{0}>", @class.Identifier.Text + "Data"));
         }
 
         private static PropertyDeclarationSyntax GetTestDataPropertyDeclaration(ClassDeclarationSyntax @class)
