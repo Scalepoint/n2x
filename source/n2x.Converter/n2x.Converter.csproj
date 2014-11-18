@@ -74,13 +74,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DocumentConverter.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\FixtureTearDownMethodMover.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\FixtureTearDownMethodRemover.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\UseFixtureImplementor.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\FixtureSetUpMethodMover.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\FixtureSetUpMethodRemover.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\TestDataClassCreator.cs" />
-    <Compile Include="Converters\TestFixtureSetUp\TestFixtureSetUpConverter.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureTearDownMethodMover.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureTearDownMethodRemover.cs" />
+    <Compile Include="Converters\TestFixture\UseFixtureImplementor.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodMover.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodRemover.cs" />
+    <Compile Include="Converters\TestFixture\TestDataClassCreator.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureConverter.cs" />
     <Compile Include="IN2XConverter.cs" />
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="IConverterProvider.cs" />

@@ -82,7 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\TestFixtureSetUpConvreterTests.cs" />
+    <Compile Include="Converters\TestFixtureConvreterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specification.cs" />
     <Compile Include="Utils\TestCode.cs" />

@@ -2,17 +2,17 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using n2x.Converter.Converters.TestFixtureSetUp;
+using n2x.Converter.Converters.TestFixture;
 using n2x.Converter.Utils;
 using n2x.Tests.Utils;
 using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TestFixtureSetUp_attribute : Specification
+    public class behaves_like_converting_TestFixture : Specification
     {
         protected TestCode Code;
-        protected TestFixtureSetUpConverter _converter;
+        protected TestFixtureConverter _converter;
 
         protected Document Result;
         protected CompilationUnitSyntax Compilation { get; set; }
@@ -49,7 +49,7 @@ namespace n2x.Tests.Converters
                      }
                 }");
 
-            _converter = new TestFixtureSetUpConverter();
+            _converter = new TestFixtureConverter();
         }
 
         public override void Because()
@@ -67,7 +67,7 @@ namespace n2x.Tests.Converters
        
     }
 
-    public class WhenConvertingConvertingTestFixtureSetUp : behaves_like_converting_TestFixtureSetUp_attribute
+    public class WhenConvertingConvertingTestFixtureSetUp : behaves_like_converting_TestFixture
     {
         [Fact]
         public void should_remove_TestFixtureSetUp_method_from_test_class()
@@ -239,6 +239,14 @@ namespace n2x
         }
     }
 }");
+        }
+
+        [Fact]
+        public void should_not_produce_compilation_errors_and_warnings()
+        {
+            var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
+
+            Assert.False(hasCompilationErrorsOrWarnings);
         }
     }
 }

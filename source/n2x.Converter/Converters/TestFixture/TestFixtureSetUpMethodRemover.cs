@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis;
 using n2x.Converter.Utils;
 
-namespace n2x.Converter.Converters.TestFixtureSetUp
+namespace n2x.Converter.Converters.TestFixture
 {
-    public class FixtureSetUpMethodRemover : IConverter
+    public class TestFixtureSetUpMethodRemover : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {

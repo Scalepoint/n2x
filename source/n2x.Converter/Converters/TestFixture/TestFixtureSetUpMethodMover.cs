@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Utils;
 
-namespace n2x.Converter.Converters.TestFixtureSetUp
+namespace n2x.Converter.Converters.TestFixture
 {
-    public class FixtureSetUpMethodMover : IConverter
+    public class TestFixtureSetUpMethodMover : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {

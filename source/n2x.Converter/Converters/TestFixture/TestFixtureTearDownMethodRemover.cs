@@ -2,9 +2,9 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using n2x.Converter.Utils;
 
-namespace n2x.Converter.Converters.TestFixtureSetUp
+namespace n2x.Converter.Converters.TestFixture
 {
-    public class FixtureTearDownMethodRemover : IConverter
+    public class TestFixtureTearDownMethodRemover : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
