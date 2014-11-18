@@ -81,9 +81,9 @@
     <Compile Include="Converters\TestFixtureSetUp\TestFixtureSetUpConverter.cs" />
     <Compile Include="IN2XConverter.cs" />
     <Compile Include="Converters\IConverter.cs" />
-    <Compile Include="IDocumentConverterProvider.cs" />
+    <Compile Include="IConverterProvider.cs" />
     <Compile Include="N2XConverter.cs" />
-    <Compile Include="DocumentConverterProvider.cs" />
+    <Compile Include="ConverterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\NUnitExtensions.cs" />
     <Compile Include="Utils\SyntaxNodeExtensions.cs" />

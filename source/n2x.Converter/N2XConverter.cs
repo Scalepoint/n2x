@@ -4,9 +4,9 @@ namespace n2x.Converter
 {
     public class N2XConverter : IN2XConverter
     {
-        private readonly IDocumentConverterProvider _converterProvider;
+        private readonly IConverterProvider _converterProvider;
 
-        public N2XConverter(IDocumentConverterProvider converterProvider)
+        public N2XConverter(IConverterProvider converterProvider)
         {
             _converterProvider = converterProvider;
         }
