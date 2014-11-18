@@ -8,8 +8,10 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
         {
             yield return new TestDataClassCreator();
             yield return new UseFixtureImplementor();
-            yield return new SetUpMethodMover();
-            yield return new SetUpMethodRemover();
+            yield return new FixtureSetUpMethodMover();
+            yield return new FixtureSetUpMethodRemover();
+            yield return new FixtureTearDownMethodMover();
+            yield return new FixtureTearDownMethodRemover();
         }
     }
 }

@@ -14,7 +14,10 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
             foreach (var @class in root.Classes())
             {
-                if (@class.HasTestSetUpMethods(semanticModel))
+                var needsIUseFixtureImplementation = @class.HasTestFixtureSetUpMethods(semanticModel) 
+                    || @class.HasTestFixtureTearDownMethods(semanticModel);
+
+                if (needsIUseFixtureImplementation)
                 {
                     var baseType = GetIUseFixtureDeclarationSyntax(@class);
                     var newMembers = new MemberDeclarationSyntax[]

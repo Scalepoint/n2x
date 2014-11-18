@@ -7,7 +7,7 @@ using n2x.Converter.Utils;
 
 namespace n2x.Converter.Converters.TestFixtureSetUp
 {
-    public class SetUpMethodMover : IConverter
+    public class FixtureSetUpMethodMover : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
@@ -16,7 +16,7 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
             {
                 var testDataClassName = useFixtureClass.GetIUseFixtureTypeArgumentName(semanticModel);
                 var testDataClass = root.Classes().SingleOrDefault(c => c.Identifier.Text == testDataClassName);
-                var fixtureSetUpMethod = useFixtureClass.GetTestSetUpMethods(semanticModel).FirstOrDefault();
+                var fixtureSetUpMethod = useFixtureClass.GetTestFixtureSetUpMethods(semanticModel).FirstOrDefault();
 
                 if (fixtureSetUpMethod != null && testDataClass != null)
                 {

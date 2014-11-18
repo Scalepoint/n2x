@@ -12,7 +12,7 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
         {
             var newTestDataClasses = root
                 .Classes()
-                .Where(c => c.HasTestSetUpMethods(semanticModel))
+                .Where(c => c.HasTestFixtureSetUpMethods(semanticModel) || c.HasTestFixtureTearDownMethods(semanticModel))
                 .Select(CreateTestDataClassDeclaration)
                 .ToList();
 

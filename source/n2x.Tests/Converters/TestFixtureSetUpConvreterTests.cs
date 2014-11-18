@@ -36,11 +36,16 @@ namespace n2x.Tests.Converters
                             var i = 10;
                         }
 
+                        [TestFixtureTearDown]
+                        public void TestFixtureTearDown()
+                        {
+                            var i = 0;
+                        }
+
                         [Test]
                         public void should_do_the_magic()
                         {
                         }
-
                      }
                 }");
 
@@ -136,6 +141,39 @@ namespace n2x.Tests.Converters
         }
 
         [Fact]
+        public void should_add_IDisposable_implementation_to_test_class()
+        {
+            Assert.NotNull(TestDataClassSyntax.BaseList);
+            var hasIDisposableInterface = TestDataClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.Name == "IDisposable");
+
+            Assert.True(hasIDisposableInterface);
+
+        }
+
+        [Fact]
+        public void should_move_TestFixtureTearDown_method_to_test_class_Dispose()
+        {
+            var dispose = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.Text == "Dispose");
+            Assert.NotNull(dispose);
+
+            Assert.Equal(dispose.Body.ToString(), @"{
+            var i = 0;
+        }");
+        }
+
+        [Fact]
+        public void should_remove_TestFixtureTearDown_method_from_original_class()
+        {
+            var methods = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>();
+            var hasTestFixtureTearDownMethods = methods.Any(method => method
+                .AttributeLists
+                .SelectMany(a => a.Attributes)
+                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureTearDownAttribute()));
+
+            Assert.False(hasTestFixtureTearDownMethods);
+        }
+
+        [Fact]
         public void should_remove_TestFixtureSetUp_attribute_from_test_data_class_ctor()
         {
             var ctor = TestDataClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().Single();
@@ -149,6 +187,19 @@ namespace n2x.Tests.Converters
         }
 
         [Fact]
+        public void should_remove_TestFixtureTearDown_attribute_from_Disapose_method()
+        {
+            var dispose = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>().Single(m => m.Identifier.Text == "Dispose");
+
+            var hasTestFixtureSetupAttribute = dispose
+                .AttributeLists
+                .SelectMany(a => a.Attributes)
+                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureTearDownAttribute());
+
+            Assert.False(hasTestFixtureSetupAttribute);
+        }
+
+        [Fact]
         public void should_match_etalon_document()
         {
             Assert.Equal(Compilation.ToFullString(),
@@ -156,11 +207,16 @@ namespace n2x.Tests.Converters
 
 namespace n2x
 {
-    public class TestData
+    public class TestData : IDisposable
     {
         public TestData()
         {
             var i = 10;
+        }
+
+        public void Dispose()
+        {
+            var i = 0;
         }
     }
 
