@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -12,12 +13,17 @@ namespace n2x.Converter.Utils
                 typeSymbol.ToDisplayString() == "NUnit.Framework.TestFixtureSetUpAttribute";
         }
 
-        public static bool HasTestSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        public static IEnumerable<MethodDeclarationSyntax> GetTestSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Any(m => m.AttributeLists
+                .Where(m => m.AttributeLists
                     .SelectMany(a => a.Attributes)
                     .Any(a => semanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute()));
+        }
+
+        public static bool HasTestSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.GetTestSetUpMethods(semanticModel).Any();
         }
     }
 }
