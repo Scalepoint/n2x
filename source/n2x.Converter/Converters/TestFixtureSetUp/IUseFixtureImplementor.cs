@@ -12,9 +12,8 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
             var result = root;
-            var classes = result.DescendantNodes().OfType<ClassDeclarationSyntax>();
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
-            foreach (var @class in classes)
+            foreach (var @class in result.Classes())
             {
                 var hasFixtureSetUpMethod = @class.Members.OfType<MethodDeclarationSyntax>()
                     .Any(m => m.AttributeLists

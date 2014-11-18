@@ -11,8 +11,7 @@ namespace n2x.Converter.Converters.TestFixtureSetUp
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
             var newTestDataClasses = root
-                .DescendantNodes()
-                .OfType<ClassDeclarationSyntax>()
+                .Classes()
                 .Where(c => c.HasTestSetUpMethods(semanticModel))
                 .Select(CreateTestDataClassDeclaration)
                 .ToList();
