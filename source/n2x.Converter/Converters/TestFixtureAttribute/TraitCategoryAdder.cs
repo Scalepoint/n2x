@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Generators;
 using n2x.Converter.Utils;
+using Xunit;
 
 namespace n2x.Converter.Converters.TestFixtureAttribute
 {
@@ -20,9 +21,10 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
                 var categoryArg = testFixtureAttribute.ArgumentList?.Arguments.SingleOrDefault(a => a.NameEquals.Name.Identifier.Text == "Category");
                 if (categoryArg != null)
                 {
+                   
                     var traitAttrDeclaration = CreateTraitAttrDeclaration(
                         ExpressionGenerator.GenerateValueExpression("Category"), 
-                        categoryArg.Expression);
+                        categoryArg.Expression, semanticModel);
 
                     dict.Add(testFixtureAttribute, traitAttrDeclaration);
                 }
@@ -38,7 +40,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
             return root;
         }
 
-        private AttributeSyntax CreateTraitAttrDeclaration(ExpressionSyntax key, ExpressionSyntax value)
+        private AttributeSyntax CreateTraitAttrDeclaration(ExpressionSyntax key, ExpressionSyntax value, SemanticModel semanticModel)
         {
             //TODO: move to AttributeGenerator
             var arguments = new List<AttributeArgumentSyntax>
@@ -48,8 +50,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
             };
 
             var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
-
-            return SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("Xunit.Trait"), argumentList);
+            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(TraitAttribute).FullName), argumentList);
         }
     }
 }

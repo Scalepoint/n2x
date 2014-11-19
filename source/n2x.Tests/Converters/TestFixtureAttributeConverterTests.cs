@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Converters.TestFixtureAttribute;
-using n2x.Tests.Utils;
 using n2x.Converter.Utils;
+using n2x.Tests.Utils;
 using NUnit.Framework;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -18,6 +18,7 @@ namespace n2x.Tests.Converters
 
         protected Document Result;
         protected CompilationUnitSyntax Compilation { get; set; }
+        protected SyntaxTree SyntaxTree { get; set; }
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
         protected SemanticModel SemanticModel { get; set; }
@@ -55,6 +56,7 @@ namespace n2x.Tests.Converters
             Result = _converter.Convert(Code.Document);
 
             Compilation = (CompilationUnitSyntax)Result.GetSyntaxRootAsync().Result;
+            SyntaxTree = Result.GetSyntaxTreeAsync().Result;
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
             TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
             SemanticModel = Result.GetSemanticModelAsync().Result;
@@ -79,7 +81,8 @@ namespace n2x.Tests.Converters
         public void should_replace_categorized_TestFixtureAttribute_with_Trait_attribute()
         {
             var hasTraitAttributeWithCategory = TestClassSyntax.AttributeLists.SelectMany(a => a.Attributes)
-                .Any(a => a.IsTraitAttributeWith("Category", "FullRegression", SemanticModel));
+                .Any(a => a.IsTraitAttributeWith("Category", "FullRegression, Smoke", SemanticModel)
+                );
 
             Assert.True(hasTraitAttributeWithCategory);
         }
@@ -99,7 +102,7 @@ namespace n2x
         public const string Smoke = ""Smoke"";
     }
 
-    [Xunit.Trait(""Category"", TestCategoryProvider.FullRegression + "", "" + TestCategoryProvider.Smoke)]
+    [Xunit.TraitAttribute(""Category"", TestCategoryProvider.FullRegression + "", "" + TestCategoryProvider.Smoke)]
     [Explicit]
     public class Test
     {
