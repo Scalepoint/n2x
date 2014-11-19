@@ -5,7 +5,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Converters.TestFixture;
 using n2x.Converter.Utils;
 using n2x.Tests.Utils;
+using NUnit.Framework;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace n2x.Tests.Converters
 {
@@ -76,7 +78,7 @@ namespace n2x.Tests.Converters
             var hasTestFixtureSetupMethods = methods.Any(method => method
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
-                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute()));
+                .Any(a => a.IsOfType<TestFixtureSetUpAttribute>(SemanticModel)));
 
             Assert.False(hasTestFixtureSetupMethods);
         }
@@ -168,7 +170,7 @@ namespace n2x.Tests.Converters
             var hasTestFixtureTearDownMethods = methods.Any(method => method
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
-                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureTearDownAttribute()));
+                .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(SemanticModel)));
 
             Assert.False(hasTestFixtureTearDownMethods);
         }
@@ -181,7 +183,7 @@ namespace n2x.Tests.Converters
             var hasTestFixtureSetupAttribute = ctor
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
-                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureSetUpAttribute());
+                .Any(a => a.IsOfType<TestFixtureSetUpAttribute>(SemanticModel));
 
             Assert.False(hasTestFixtureSetupAttribute);
         }
@@ -194,7 +196,7 @@ namespace n2x.Tests.Converters
             var hasTestFixtureSetupAttribute = dispose
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
-                .Any(a => SemanticModel.GetTypeInfo(a).Type.IsTestFixtureTearDownAttribute());
+                .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(SemanticModel));
 
             Assert.False(hasTestFixtureSetupAttribute);
         }
