@@ -25,10 +25,7 @@ namespace n2x.Converter.Utils
         public static IEnumerable<ClassDeclarationSyntax> GetIUseFixtureClasses(this SyntaxNode root, SemanticModel semanticModel)
         {
             return root.Classes()
-                .Where(c => c.BaseList != null
-                            && c.BaseList.Types
-                                .Any(t => semanticModel.GetTypeInfo(t)
-                                    .Type.IsIUseFixtureInterface()));
+                .Where(c => c.BaseList?.Types.Any(t => semanticModel.GetTypeInfo(t).Type.IsIUseFixtureInterface()) ?? false);
         }
 
         public static string GetIUseFixtureTypeArgumentName(this ClassDeclarationSyntax @class, SemanticModel semanticModel)

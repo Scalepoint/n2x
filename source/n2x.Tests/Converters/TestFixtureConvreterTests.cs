@@ -69,7 +69,7 @@ namespace n2x.Tests.Converters
        
     }
 
-    public class WhenConvertingConvertingTestFixtureSetUp : behaves_like_converting_TestFixture
+    public class when_converting_TestFixtureSetUpAttribute : behaves_like_converting_TestFixture
     {
         [Fact]
         public void should_remove_TestFixtureSetUp_method_from_test_class()

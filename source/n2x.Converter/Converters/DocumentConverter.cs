@@ -9,8 +9,7 @@ namespace n2x.Converter.Converters
         {
             var result = document;
 
-            var converters = GetConverters();
-            foreach (var converter in converters)
+            foreach (var converter in GetConverters())
             {
                 var root = result.GetSyntaxRootAsync().Result;
                 var semanticModel = result.GetSemanticModelAsync().Result;

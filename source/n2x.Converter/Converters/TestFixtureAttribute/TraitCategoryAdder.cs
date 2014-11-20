@@ -50,6 +50,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
             };
 
             var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
+
             return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(TraitAttribute).FullName), argumentList);
         }
     }

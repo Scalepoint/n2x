@@ -66,7 +66,7 @@ namespace n2x.Tests.Converters
 
     }
 
-    public class WhenConvertingTestFixtureAttributeWithCategory : behaves_like_converting_TestFixtureAttribute
+    public class when_converting_TestFixtureAttribute_with_category : behaves_like_converting_TestFixtureAttribute
     {
         //TODO: move to base ConvterTest class
         [Fact]
@@ -115,7 +115,7 @@ namespace n2x
         }
     }
 
-    public class WhenConvertinTestFixtureAttributeWithoutCategory : behaves_like_converting_TestFixtureAttribute
+    public class when_converting_TestFixtureAttribute_without_category : behaves_like_converting_TestFixtureAttribute
     {
         public override void Context()
         {
