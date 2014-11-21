@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis.MSBuild;
+﻿using System;
+using System.Linq;
+using Microsoft.CodeAnalysis.MSBuild;
 
 namespace n2x.Converter
 {
@@ -11,13 +13,20 @@ namespace n2x.Converter
             _documentConverterProvider = documentConverterProvider;
         }
 
-        public bool ConvertSolution(string solutionFilePath)
+        public bool ConvertSolution(string solutionFilePath, Action<int, int> progress = null)
         {
             var workspace = MSBuildWorkspace.Create();
 
             var originalSolution = workspace.OpenSolutionAsync(solutionFilePath).Result;
             var newSolution = originalSolution;
             var converters = _documentConverterProvider.Converters;
+            var total = originalSolution.ProjectIds
+                .Select(id => originalSolution
+                    .GetProject(id))
+                .SelectMany(p => p.Documents)
+                .Count();
+
+            var processed = 0;
 
             foreach (var projectId in originalSolution.ProjectIds)
             {
@@ -32,7 +41,8 @@ namespace n2x.Converter
                     {
                         newDocument = converter.Convert(newDocument);
                     }
-
+                    
+                    progress?.Invoke(total, ++processed);
                     newSolution = newDocument.Project.Solution;
                 }
             }
