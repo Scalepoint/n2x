@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 
 namespace n2x.Converter.Converters.TestFixture
 {

@@ -31,7 +31,7 @@ namespace n2x.Converter.Converters.TestTearDown
 
             if (dict.Any())
             {
-                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]).NormalizeWhitespace();
             }
 
             return root;

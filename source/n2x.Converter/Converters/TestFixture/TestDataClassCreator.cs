@@ -18,7 +18,7 @@ namespace n2x.Converter.Converters.TestFixture
 
             if (newTestDataClasses.Any())
             {
-                return root.InsertNodesBefore(root.FirstClass(), newTestDataClasses);
+                return root.InsertNodesBefore(root.FirstClass(), newTestDataClasses).NormalizeWhitespace();
             }
 
             return root;
@@ -27,8 +27,7 @@ namespace n2x.Converter.Converters.TestFixture
         private static ClassDeclarationSyntax CreateTestDataClassDeclaration(ClassDeclarationSyntax @class)
         {
             return SyntaxFactory.ClassDeclaration(@class.Identifier.ValueText + "Data")
-                .WithModifiers(@class.Modifiers)
-                .NormalizeWhitespace();
+                .WithModifiers(@class.Modifiers);
         }
     }
 }

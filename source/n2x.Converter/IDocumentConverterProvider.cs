@@ -4,8 +4,8 @@ using n2x.Converter.Converters;
 
 namespace n2x.Converter
 {
-    public interface IConverterProvider
+    public interface IDocumentConverterProvider
     {
-        IList<IConverter> Converters { get; }
+        IList<IDocumentConverter> Converters { get; }
     }
 }

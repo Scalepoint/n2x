@@ -28,7 +28,8 @@ namespace n2x.Converter.Converters.TestFixture
 
                     var newClass = @class
                         .AddBaseListTypes(baseType)
-                        .AddMembers(newMembers);
+                        .AddMembers(newMembers)
+                        .NormalizeWhitespace();
 
                     dict.Add(@class, newClass);
                 }
@@ -36,7 +37,7 @@ namespace n2x.Converter.Converters.TestFixture
 
             if (dict.Any())
             {
-                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]).NormalizeWhitespace();
             }
 
             return root;

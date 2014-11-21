@@ -15,7 +15,7 @@ namespace n2x.Converter.Converters.TestFixture
 
             if (testFixtureTearDownMethods.Any())
             {
-                return root.RemoveNodes(testFixtureTearDownMethods, SyntaxRemoveOptions.KeepNoTrivia);
+                return root.RemoveNodes(testFixtureTearDownMethods, SyntaxRemoveOptions.KeepNoTrivia).NormalizeWhitespace();
             }
 
             return root;

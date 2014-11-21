@@ -26,30 +26,30 @@ namespace n2x.Tests.Converters
         public override void Context()
         {
             Code = new TestCode(
-               @"using NUnit.Framework;
+@"using NUnit.Framework;
 
-                namespace n2x
-                {
-                    public class Test
-                    {
-                        [TestFixtureSetUp]
-                        public void TestFixtureSetUp()
-                        {
-                            var i = 10;
-                        }
+namespace n2x
+{
+    public class Test
+    {
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            var i = 10;
+        }
 
-                        [TestFixtureTearDown]
-                        public void TestFixtureTearDown()
-                        {
-                            var i = 0;
-                        }
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            var i = 0;
+        }
 
-                        [Test]
-                        public void should_do_the_magic()
-                        {
-                        }
-                     }
-                }");
+        [Test]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
 
             _converter = new TestFixtureConverter();
         }
@@ -158,7 +158,8 @@ namespace n2x.Tests.Converters
             var dispose = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.Text == "Dispose");
             Assert.NotNull(dispose);
 
-            Assert.Equal(dispose.Body.ToString(), @"{
+            Assert.Equal(dispose.Body.ToString(), 
+                @"{
             var i = 0;
         }");
         }

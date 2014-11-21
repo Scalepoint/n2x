@@ -34,7 +34,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
             {
                 //TODO: we should insert new attribute instead here and imiplement TestFixtureAttributeRemover instead
                 //but I didn't find the way to insert several nodes in several different locations with a single call
-                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]).NormalizeWhitespace();
             }
 
             return root;
@@ -51,7 +51,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
 
             var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
 
-            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(TraitAttribute).FullName), argumentList);
+            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(TraitAttribute).FullName), argumentList).NormalizeWhitespace();
         }
     }
 }

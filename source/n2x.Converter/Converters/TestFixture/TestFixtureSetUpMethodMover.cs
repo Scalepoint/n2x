@@ -21,7 +21,7 @@ namespace n2x.Converter.Converters.TestFixture
                 if (fixtureSetUpMethod != null && testDataClass != null)
                 {
                     var ctor = GetCtorDeclaration(testDataClass, fixtureSetUpMethod);
-                    var modifiedTestDataClass = testDataClass.AddMembers(ctor);
+                    var modifiedTestDataClass = testDataClass.AddMembers(ctor).NormalizeWhitespace();
 
                     dict.Add(testDataClass, modifiedTestDataClass);
                 }
@@ -29,7 +29,7 @@ namespace n2x.Converter.Converters.TestFixture
 
             if (dict.Any())
             {
-                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]).NormalizeWhitespace();
             }
 
             return root;

@@ -17,7 +17,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
 
             if (emptyLists.Any())
             {
-                return root.RemoveNodes(emptyLists, SyntaxRemoveOptions.KeepNoTrivia);
+                return root.RemoveNodes(emptyLists, SyntaxRemoveOptions.KeepNoTrivia).NormalizeWhitespace();
             }
 
             return root;

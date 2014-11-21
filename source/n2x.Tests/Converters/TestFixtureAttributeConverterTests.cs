@@ -27,26 +27,26 @@ namespace n2x.Tests.Converters
         public override void Context()
         {
             Code = new TestCode(
-               @"using NUnit.Framework;
+@"using NUnit.Framework;
 
-                namespace n2x
-                {
-                    public struct TestCategoryProvider
-                    {
-                        public const string FullRegression = ""FullRegression"";
-                        public const string Smoke = ""Smoke"";
-                    }
- 
-                    [TestFixture(Category = TestCategoryProvider.FullRegression + "", "" + TestCategoryProvider.Smoke)]
-                    [Explicit]
-                    public class Test
-                    {
-                        [Test]
-                        public void should_do_the_magic()
-                        {
-                        }
-                     }
-                }");
+namespace n2x
+{
+    public struct TestCategoryProvider
+    {
+        public const string FullRegression = ""FullRegression"";
+        public const string Smoke = ""Smoke"";
+    }
+
+    [TestFixture(Category = TestCategoryProvider.FullRegression + "", "" + TestCategoryProvider.Smoke)]
+    [Explicit]
+    public class Test
+    {
+        [Test]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
 
             _converter = new TestFixtureAttributeConverter();
         }
@@ -120,20 +120,20 @@ namespace n2x
         public override void Context()
         {
             Code = new TestCode(
-               @"using NUnit.Framework;
+@"using NUnit.Framework;
 
-                namespace n2x
-                {
-                    [TestFixture]
-                    [Explicit]
-                    public class Test
-                    {
-                        [Test]
-                        public void should_do_the_magic()
-                        {
-                        }
-                     }
-                }");
+namespace n2x
+{
+    [TestFixture]
+    [Explicit]
+    public class Test
+    {
+        [Test]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
 
             _converter = new TestFixtureAttributeConverter();
         }

@@ -3,9 +3,9 @@ using Microsoft.CodeAnalysis;
 
 namespace n2x.Converter.Converters
 {
-    public abstract class DocumentConverter
+    public abstract class DocumentConverter : IDocumentConverter
     {
-        public Document Convert(Document document)
+        public virtual Document Convert(Document document)
         {
             var result = document;
 
@@ -15,7 +15,7 @@ namespace n2x.Converter.Converters
                 var semanticModel = result.GetSemanticModelAsync().Result;
 
                 var newRoot = converter.Convert(root, semanticModel);
-                result = result.WithSyntaxRoot(newRoot.NormalizeWhitespace());
+                result = result.WithSyntaxRoot(newRoot);
             }
 
             return result;
