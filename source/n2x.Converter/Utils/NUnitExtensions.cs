@@ -24,6 +24,14 @@ namespace n2x.Converter.Utils
                     .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(semanticModel)));
         }
 
+        public static IEnumerable<MethodDeclarationSyntax> GetTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>()
+                .Where(m => m.AttributeLists
+                    .SelectMany(a => a.Attributes)
+                    .Any(a => a.IsOfType<TearDownAttribute>(semanticModel)));
+        }
+
         public static bool HasTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.GetTestFixtureSetUpMethods(semanticModel).Any();
@@ -32,6 +40,11 @@ namespace n2x.Converter.Utils
         public static bool HasTestFixtureTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.GetTestFixtureTearDownMethods(semanticModel).Any();
+        }
+
+        public static bool HasTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.GetTearDownMethods(semanticModel).Any();
         }
     }
 }

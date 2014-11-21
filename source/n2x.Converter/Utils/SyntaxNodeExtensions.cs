@@ -46,5 +46,28 @@ namespace n2x.Converter.Utils
         {
             return @this.GetAttributes<T>(semanticModel).SingleOrDefault();
         }
+
+        public static IEnumerable<AttributeSyntax> GetAttributes<T>(this MethodDeclarationSyntax @this, SemanticModel semanticModel)
+            where T : Attribute
+        {
+            return @this.AttributeLists
+                .SelectMany(l => l.Attributes)
+                .Where(a => a.IsOfType<T>(semanticModel));
+        }
+
+        public static bool HasDisposableBaseClass(this ClassDeclarationSyntax @class, SyntaxNode root)
+        {
+            var baseClassList = @class.BaseList.Types.OfType<IdentifierNameSyntax>()
+                .Where(p => !p.Identifier.Text.StartsWith("I"))
+                .Select(p => root.Classes().Single(r => p.Identifier.Text == r.Identifier.Text));
+
+            return baseClassList.Any(p => p.IsDisposable());
+        }
+
+        public static bool IsDisposable(this ClassDeclarationSyntax @class)
+        {
+            return @class.BaseList != null
+                && @class.BaseList.Types.OfType<IdentifierNameSyntax>().Any(p => p.Identifier.Text == "IDisposable");
+        }
     }
 }

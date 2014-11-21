@@ -94,6 +94,10 @@
     <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodRemover.cs" />
     <Compile Include="Converters\TestFixture\TestDataClassCreator.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureConverter.cs" />
+    <Compile Include="Converters\TestTearDown\DisposableInterfaceImplementer.cs" />
+    <Compile Include="Converters\TestTearDown\TearDownMethodMover.cs" />
+    <Compile Include="Converters\TestTearDown\TearDownMethodRemover.cs" />
+    <Compile Include="Converters\TestTearDown\TestTearDownConverter.cs" />
     <Compile Include="Generators\ExpressionGenerator.cs" />
     <Compile Include="IN2XConverter.cs" />
     <Compile Include="Converters\IConverter.cs" />
