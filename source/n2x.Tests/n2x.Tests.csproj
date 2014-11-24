@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\TestAttributeConverterTests.cs" />
     <Compile Include="Converters\TestFixtureAttributeConverterTests.cs" />
     <Compile Include="Converters\TestFixtureConvreterTests.cs" />
     <Compile Include="Converters\TestTearDownConverterTests.cs" />
