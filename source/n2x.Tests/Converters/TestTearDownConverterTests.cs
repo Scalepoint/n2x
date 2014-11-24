@@ -139,6 +139,11 @@ namespace n2x
                         public void should_do_the_magic()
                         {
                         }
+
+                        public virtual void Dispose()
+                        {
+                            var j = 0;
+                        }
                      }
                 }");
 
@@ -156,9 +161,11 @@ namespace n2x
         [Fact]
         public void should_not_implement_IDisposable_twice()
         {
-            var implementationCount = TestClassSyntax.BaseList.Types.OfType<IdentifierNameSyntax>().Count(p => p.Identifier.Text == "IDisposable");
+            var interfaceCount = TestClassSyntax.BaseList.Types.OfType<IdentifierNameSyntax>().Count(p => p.Identifier.Text == "IDisposable");
+            var memberCount = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().Count(m => m.Identifier.Text == "Dispose");
 
-            Assert.Equal(1, implementationCount);
+            Assert.Equal(1, interfaceCount);
+            Assert.Equal(1, memberCount);
         }
     }
 
@@ -167,7 +174,8 @@ namespace n2x
         public override void Context()
         {
             Code = new TestCode(
-               @"using NUnit.Framework;
+               @"using System;
+                using NUnit.Framework;
 
                 namespace n2x
                 {

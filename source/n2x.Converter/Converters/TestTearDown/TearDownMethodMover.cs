@@ -22,10 +22,18 @@ namespace n2x.Converter.Converters.TestTearDown
                 {
                     var tearDownMethod = @class.GetTearDownMethods(semanticModel).FirstOrDefault();
 
-                    var disposeMethod = GetDisposeMethodDeclaration(tearDownMethod, @class.HasDisposableBaseClass(root));
-                    var modifiedTestDataClass = @class.AddMembers(disposeMethod);
-
-                    dict.Add(@class, modifiedTestDataClass);
+                    if (@class.HasDisposeMethod())
+                    {
+                        var disposeMethod = @class.GetDisposeMethod();
+                        var newDisposeMethod = disposeMethod.AddBodyStatements(tearDownMethod.Body.Statements.ToArray());
+                        dict.Add(disposeMethod, newDisposeMethod);
+                    }
+                    else
+                    {
+                        var disposeMethod = GetDisposeMethodDeclaration(tearDownMethod, @class.HasDisposableBaseClass(semanticModel));
+                        var modifiedTestDataClass = @class.AddMembers(disposeMethod);
+                        dict.Add(@class, modifiedTestDataClass);
+                    }
                 }
             }
 

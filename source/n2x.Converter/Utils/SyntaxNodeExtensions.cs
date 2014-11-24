@@ -55,13 +55,30 @@ namespace n2x.Converter.Utils
                 .Where(a => a.IsOfType<T>(semanticModel));
         }
 
-        public static bool HasDisposableBaseClass(this ClassDeclarationSyntax @class, SyntaxNode root)
+        public static bool HasDisposableBaseClass(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            var baseClassList = @class.BaseList.Types.OfType<IdentifierNameSyntax>()
-                .Where(p => !p.Identifier.Text.StartsWith("I"))
-                .Select(p => root.Classes().Single(r => p.Identifier.Text == r.Identifier.Text));
+            var baseClasses = @class.BaseList.Types.OfType<IdentifierNameSyntax>()
+                .Where(p => !p.Identifier.Text.StartsWith("I"));
 
-            return baseClassList.Any(p => p.IsDisposable());
+            foreach (var baseClass in baseClasses)
+            {
+                var baseClassType = semanticModel.GetTypeInfo(baseClass).Type;
+                var hasInterface = baseClassType.Interfaces.Any(p => p.Name == "IDisposable");
+
+                return baseClassType.TypeKind == TypeKind.Class && !baseClassType.IsAbstract && hasInterface;
+            }
+
+            return false;
+        }
+
+        public static MethodDeclarationSyntax GetDisposeMethod(this ClassDeclarationSyntax @class)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>().FirstOrDefault(m => m.Identifier.Text == "Dispose");
+        }
+
+        public static bool HasDisposeMethod(this ClassDeclarationSyntax @class)
+        {
+            return @class.GetDisposeMethod() != null;
         }
 
         public static bool IsDisposable(this ClassDeclarationSyntax @class)
