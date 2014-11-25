@@ -84,6 +84,9 @@
   <ItemGroup>
     <Compile Include="Converters\DocumentConverter.cs" />
     <Compile Include="Converters\IDocumentConverter.cs" />
+    <Compile Include="Converters\SetUp\SetUpConverter.cs" />
+    <Compile Include="Converters\SetUp\SetUpMethodMover.cs" />
+    <Compile Include="Converters\SetUp\SetUpMethodRemover.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeConverter.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeReplacer.cs" />
     <Compile Include="Converters\TestFixtureAttribute\EmptyAttributeListRemover.cs" />

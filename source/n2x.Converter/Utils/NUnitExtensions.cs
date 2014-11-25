@@ -54,5 +54,10 @@ namespace n2x.Converter.Utils
         {
             return @class.GetTearDownMethods(semanticModel).Any();
         }
+
+        public static IEnumerable<MethodDeclarationSyntax> GetSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>().DecoratedWith<SetUpAttribute>(semanticModel);
+        }
     }
 }

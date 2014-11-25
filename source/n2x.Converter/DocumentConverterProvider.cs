@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using n2x.Converter.Converters;
+using n2x.Converter.Converters.SetUp;
 using n2x.Converter.Converters.TestFixture;
 using n2x.Converter.Converters.TestFixtureAttribute;
 using n2x.Converter.Converters.TearDownAttribute;
@@ -16,7 +17,8 @@ namespace n2x.Converter
                 new TestFixtureConverter(),
                 new TestFixtureAttributeConverter(),
                 new TearDownAttributeConverter(),
-                new TestAttributeConverter()
+                new TestAttributeConverter(),
+                new SetUpConverter(),
             };
         }
 

@@ -33,6 +33,14 @@ namespace n2x.Converter.Utils
                 .Any(a => a.IsOfType<T>(semanticModel)));
         }
 
+        public static IEnumerable<MethodDeclarationSyntax> DecoratedWith<T>(this IEnumerable<MethodDeclarationSyntax> @this, SemanticModel semanticModel)
+            where T : Attribute
+        {
+            return @this.Where(c => c.AttributeLists
+                .SelectMany(l => l.Attributes)
+                .Any(a => a.IsOfType<T>(semanticModel)));
+        }
+
         public static IEnumerable<AttributeSyntax> GetAttributes<T>(this ClassDeclarationSyntax @this, SemanticModel semanticModel)
             where T : Attribute
         {
@@ -85,6 +93,11 @@ namespace n2x.Converter.Utils
         {
             return @class.BaseList != null
                 && @class.BaseList.Types.OfType<IdentifierNameSyntax>().Any(p => p.Identifier.Text == "IDisposable");
+        }
+
+        public static IEnumerable<ClassDeclarationSyntax> WithSetUpMethods(this IEnumerable<ClassDeclarationSyntax> @this, SemanticModel semanticModel)
+        {
+            return @this.Where(c => c.GetSetUpMethods(semanticModel).Any());
         }
     }
 }

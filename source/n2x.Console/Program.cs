@@ -1,4 +1,5 @@
-﻿using n2x.Converter;
+﻿using System;
+using n2x.Converter;
 using NConsoler;
 
 namespace n2x.Console
@@ -16,7 +17,8 @@ namespace n2x.Console
             var convertersProvider = new DocumentConverterProvider();
             var converter = new N2XConverter(convertersProvider);
 
-            var result = converter.ConvertSolution(path, (total, processed) => System.Console.Write("\r{0}%   ({1} of {2})", processed * 100/total, processed, total));
+            Action<int, int> progress = (total, processed) => System.Console.Write("\r{0}%   ({1} of {2})", processed * 100/total, processed, total);
+            var result = converter.ConvertSolution(path, progress);
 
             System.Console.WriteLine(result ? "Success" : "Failure");
         }
