@@ -7,6 +7,7 @@ using n2x.Converter.Utils;
 using n2x.Tests.Utils;
 using NUnit.Framework;
 using Xunit;
+using Xunit.Extensions;
 using Assert = Xunit.Assert;
 
 namespace n2x.Tests.Converters

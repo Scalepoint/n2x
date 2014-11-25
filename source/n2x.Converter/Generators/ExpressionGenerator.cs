@@ -1,4 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace n2x.Converter.Generators
@@ -9,6 +12,15 @@ namespace n2x.Converter.Generators
         {
             var valueString = SymbolDisplay.FormatLiteral(value, quote: true);
             return SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(valueString, value));
+        }
+
+        public static AttributeSyntax GenerateAttribute<T>(params AttributeArgumentSyntax[] args)
+            where T : Attribute
+        {
+            var arguments = new List<AttributeArgumentSyntax>(args);
+            var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
+
+            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(T).FullName), argumentList).NormalizeWhitespace();
         }
     }
 }
