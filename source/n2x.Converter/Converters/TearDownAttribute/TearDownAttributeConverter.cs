@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace n2x.Converter.Converters.TestTearDown
+namespace n2x.Converter.Converters.TearDownAttribute
 {
-    public class TestTearDownConverter : DocumentConverter
+    public class TearDownAttributeConverter : DocumentConverter
     {
         protected override IEnumerable<IConverter> GetConverters()
         {

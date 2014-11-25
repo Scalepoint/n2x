@@ -2,7 +2,7 @@
 using n2x.Converter.Converters;
 using n2x.Converter.Converters.TestFixture;
 using n2x.Converter.Converters.TestFixtureAttribute;
-using n2x.Converter.Converters.TestTearDown;
+using n2x.Converter.Converters.TearDownAttribute;
 using n2x.Converter.Converters.TestAttribute;
 
 namespace n2x.Converter
@@ -15,7 +15,7 @@ namespace n2x.Converter
             {
                 new TestFixtureConverter(),
                 new TestFixtureAttributeConverter(),
-                new TestTearDownConverter(),
+                new TearDownAttributeConverter(),
                 new TestAttributeConverter()
             };
         }

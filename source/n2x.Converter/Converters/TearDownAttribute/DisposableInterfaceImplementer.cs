@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using n2x.Converter.Utils;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace n2x.Converter.Converters.TestTearDown
+namespace n2x.Converter.Converters.TearDownAttribute
 {
     internal class DisposableInterfaceImplementer : IConverter
     {

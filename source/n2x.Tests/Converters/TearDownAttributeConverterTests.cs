@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using n2x.Converter.Converters.TestTearDown;
+using n2x.Converter.Converters.TearDownAttribute;
 using n2x.Converter.Utils;
 using n2x.Tests.Utils;
 using System;
@@ -12,7 +12,7 @@ namespace n2x.Tests.Converters
     public class behaves_like_converting_TearDown : Specification
     {
         protected TestCode Code;
-        protected TestTearDownConverter _converter;
+        protected TearDownAttributeConverter _converter;
 
         protected Document Result;
         protected CompilationUnitSyntax Compilation { get; set; }
@@ -42,7 +42,7 @@ namespace n2x.Tests.Converters
                      }
                 }");
 
-            _converter = new TestTearDownConverter();
+            _converter = new TearDownAttributeConverter();
         }
 
         public override void Because()
@@ -147,7 +147,7 @@ namespace n2x
                      }
                 }");
 
-            _converter = new TestTearDownConverter();
+            _converter = new TearDownAttributeConverter();
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace n2x
                      }
                 }");
 
-            _converter = new TestTearDownConverter();
+            _converter = new TearDownAttributeConverter();
         }
 
         [Fact]

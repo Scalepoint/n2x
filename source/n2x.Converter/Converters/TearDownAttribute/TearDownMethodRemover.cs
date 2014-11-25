@@ -2,7 +2,7 @@
 using n2x.Converter.Utils;
 using System.Linq;
 
-namespace n2x.Converter.Converters.TestTearDown
+namespace n2x.Converter.Converters.TearDownAttribute
 {
     internal class TearDownMethodRemover : IConverter
     {
