@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
     <Compile Include="Converters\DocumentConverter.cs" />
     <Compile Include="Converters\IDocumentConverter.cs" />
     <Compile Include="Converters\SetUp\SetUpConverter.cs" />
@@ -89,7 +90,10 @@
     <Compile Include="Converters\SetUp\SetUpMethodRemover.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeConverter.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeReplacer.cs" />
-    <Compile Include="Converters\TestFixtureAttribute\EmptyAttributeListRemover.cs" />
+    <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeConverter.cs" />
+    <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeRemover.cs" />
+    <Compile Include="Converters\TestCaseAttribute\TestCaseCategoryReplacer.cs" />
+    <Compile Include="Converters\Common\EmptyClassAttributeListRemover.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeConverter.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeRemover.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TraitCategoryAdder.cs" />

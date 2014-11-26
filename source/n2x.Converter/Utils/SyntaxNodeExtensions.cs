@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace n2x.Converter.Utils
@@ -98,6 +99,12 @@ namespace n2x.Converter.Utils
         public static IEnumerable<ClassDeclarationSyntax> WithSetUpMethods(this IEnumerable<ClassDeclarationSyntax> @this, SemanticModel semanticModel)
         {
             return @this.Where(c => c.GetSetUpMethods(semanticModel).Any());
+        }
+
+        public static MethodDeclarationSyntax AddAtribute(this MethodDeclarationSyntax method, AttributeSyntax attribute)
+        {
+            var attributeList = SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(new[] { attribute }));
+            return method.AddAttributeLists(attributeList);
         }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="Converters\ConverterSpecification.cs" />
     <Compile Include="Converters\SetUpConverterTests.cs" />
     <Compile Include="Converters\TestAttributeConverterTests.cs" />
+    <Compile Include="Converters\TestCaseAttributeConverterTests.cs" />
     <Compile Include="Converters\TestFixtureAttributeConverterTests.cs" />
     <Compile Include="Converters\TestFixtureConverterTests.cs" />
     <Compile Include="Converters\TearDownAttributeConverterTests.cs" />

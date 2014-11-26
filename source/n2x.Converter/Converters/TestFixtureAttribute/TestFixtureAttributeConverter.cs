@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.TestFixtureAttribute
 {
@@ -8,7 +9,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
         {
             yield return new TraitCategoryAdder();
             yield return new TestFixtureAttributeRemover();
-            yield return new EmptyAttributeListRemover();
+            yield return new EmptyClassAttributeListRemover();
         }
     }
 }

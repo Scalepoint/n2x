@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Utils;
 
-namespace n2x.Converter.Converters.TestFixtureAttribute
+namespace n2x.Converter.Converters.Common
 {
-    public class EmptyAttributeListRemover : IConverter
+    public class EmptyMethodAttributeListRemover : IConverter
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
             var emptyLists = root.Classes()
+                .SelectMany(p => p.Members.OfType<MethodDeclarationSyntax>())
                 .SelectMany(c => c.AttributeLists)
                 .Where(l => !l.Attributes.Any())
                 .ToList();
