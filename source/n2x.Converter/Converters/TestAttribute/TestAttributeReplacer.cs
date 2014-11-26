@@ -2,8 +2,7 @@
 using Microsoft.CodeAnalysis;
 using n2x.Converter.Utils;
 using Xunit;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.CSharp;
+using n2x.Converter.Generators;
 
 namespace n2x.Converter.Converters.TestAttribute
 {
@@ -14,12 +13,7 @@ namespace n2x.Converter.Converters.TestAttribute
             var methods = root.Classes().SelectMany(p => p.GetTestMethods(semanticModel));
             var attributes = methods.SelectMany(p => p.GetAttributes<NUnit.Framework.TestAttribute>(semanticModel));
 
-            return root.ReplaceNodes(attributes, (n1, n2) => CreateFactAttributeDeclaration(semanticModel)).NormalizeWhitespace();
-        }
-
-        private AttributeSyntax CreateFactAttributeDeclaration(SemanticModel semanticModel)
-        {
-            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(FactAttribute).FullName)).NormalizeWhitespace();
+            return root.ReplaceNodes(attributes, (n1, n2) => ExpressionGenerator.GenerateAttribute<FactAttribute>()).NormalizeWhitespace();
         }
     }
 }

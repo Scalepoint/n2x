@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,7 +21,10 @@ namespace n2x.Converter.Generators
             var arguments = new List<AttributeArgumentSyntax>(args);
             var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
 
-            return SyntaxFactory.Attribute(SyntaxFactory.ParseName(typeof(T).FullName), argumentList).NormalizeWhitespace();
+            var attributeType = SyntaxFactory.ParseName(typeof (T).FullName);
+            var attribute = arguments.Any() ? SyntaxFactory.Attribute(attributeType, argumentList) : SyntaxFactory.Attribute(attributeType);
+
+            return attribute.NormalizeWhitespace();
         }
     }
 }

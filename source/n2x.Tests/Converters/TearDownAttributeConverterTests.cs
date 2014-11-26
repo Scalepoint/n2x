@@ -9,13 +9,8 @@ using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TearDown : Specification
+    public class behaves_like_converting_TearDown : ConverterSpecification<TearDownAttributeConverter>
     {
-        protected TestCode Code;
-        protected TearDownAttributeConverter _converter;
-
-        protected Document Result;
-        protected CompilationUnitSyntax Compilation { get; set; }
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
         protected SemanticModel SemanticModel { get; set; }
@@ -42,21 +37,20 @@ namespace n2x.Tests.Converters
                      }
                 }");
 
-            _converter = new TearDownAttributeConverter();
+            base.Context();
         }
 
         public override void Because()
         {
-            Result = _converter.Convert(Code.Document);
+            base.Because();
 
-            Compilation = (CompilationUnitSyntax)Result.GetSyntaxRootAsync().Result;
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
-            TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
+            TestClassSyntax =
+                NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
             SemanticModel = Result.GetSemanticModelAsync().Result;
 
             Console.Out.WriteLine("{0}", Compilation.ToFullString());
         }
-
     }
 
     public class when_converting_TearDown : behaves_like_converting_TearDown
@@ -83,14 +77,6 @@ namespace n2x
         }
     }
 }");
-        }
-
-        [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
-        {
-            var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
-
-            Assert.False(hasCompilationErrorsOrWarnings);
         }
 
         [Fact]
@@ -122,6 +108,8 @@ namespace n2x
     {
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
                @"using NUnit.Framework;
 
@@ -146,16 +134,6 @@ namespace n2x
                         }
                      }
                 }");
-
-            _converter = new TearDownAttributeConverter();
-        }
-
-        [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
-        {
-            var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
-
-            Assert.False(hasCompilationErrorsOrWarnings);
         }
 
         [Fact]
@@ -173,6 +151,8 @@ namespace n2x
     {
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
                @"using System;
                 using NUnit.Framework;
@@ -201,16 +181,6 @@ namespace n2x
                         }
                      }
                 }");
-
-            _converter = new TearDownAttributeConverter();
-        }
-
-        [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
-        {
-            var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
-
-            Assert.False(hasCompilationErrorsOrWarnings);
         }
 
         [Fact]
