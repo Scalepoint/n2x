@@ -13,7 +13,11 @@ namespace n2x.Converter.Converters.TestAttribute
             var methods = root.Classes().SelectMany(p => p.GetTestMethods(semanticModel));
             var attributes = methods.SelectMany(p => p.GetAttributes<NUnit.Framework.TestAttribute>(semanticModel));
 
-            return root.ReplaceNodes(attributes, (n1, n2) => ExpressionGenerator.GenerateAttribute<FactAttribute>()).NormalizeWhitespace();
+            if (attributes.Any())
+            {
+                return root.ReplaceNodes(attributes, (n1, n2) => ExpressionGenerator.GenerateAttribute<FactAttribute>()).NormalizeWhitespace();
+            }
+            return root;
         }
     }
 }

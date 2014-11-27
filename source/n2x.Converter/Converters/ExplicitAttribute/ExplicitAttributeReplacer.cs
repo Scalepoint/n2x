@@ -15,7 +15,12 @@ namespace n2x.Converter.Converters.ExplicitAttribute
             var attributes = methods.SelectMany(p => p.GetAttributes<NUnit.Framework.ExplicitAttribute>(semanticModel));
 
             var argument = SyntaxFactory.AttributeArgument(SyntaxFactory.ParseExpression("Skip=\"Explicit\""));
-            return root.ReplaceNodes(attributes, (n1, n2) => ExpressionGenerator.GenerateAttribute<FactAttribute>(argument)).NormalizeWhitespace();
+
+            if (attributes.Any())
+            {
+                return root.ReplaceNodes(attributes, (n1, n2) => ExpressionGenerator.GenerateAttribute<FactAttribute>(argument)).NormalizeWhitespace();
+            }
+            return root;
         }
     }
 }
