@@ -17,18 +17,27 @@ namespace n2x.Converter.Converters.TestCaseAttribute
 
             foreach (var method in methods)
             {
-                var testCaseAttribute = method.GetAttributes<NUnit.Framework.TestCaseAttribute>(semanticModel).FirstOrDefault();
-                var categoryArg = testCaseAttribute?.ArgumentList?.Arguments.SingleOrDefault(a => a.NameEquals != null && a.NameEquals.Name.Identifier.Text == "Category");
+                var testCaseAttributes = method.GetAttributes<NUnit.Framework.TestCaseAttribute>(semanticModel);
+                var categoryArguments = testCaseAttributes
+                    .Select(p => p.ArgumentList?.Arguments.SingleOrDefault(a => a.NameEquals != null && a.NameEquals.Name.Identifier.Text == "Category"))
+                    .Where(p => p != null);
 
-                if (categoryArg != null)
+                if (!categoryArguments.Any())
+                {
+                    continue;
+                }
+
+                var newMethod = method;
+                foreach (var categoryArg in categoryArguments)
                 {
                     var key = SyntaxFactory.AttributeArgument(ExpressionGenerator.GenerateValueExpression("Category"));
                     var value = SyntaxFactory.AttributeArgument(categoryArg.Expression);
 
                     var traitAttrDeclaration = ExpressionGenerator.GenerateAttribute<TraitAttribute>(key, value);
-                    var newMethod = method.AddAtribute(traitAttrDeclaration);
-                    dict.Add(method, newMethod);
+                    newMethod = newMethod.AddAtribute(traitAttrDeclaration);
                 }
+
+                dict.Add(method, newMethod);
             }
 
             if (dict.Any())

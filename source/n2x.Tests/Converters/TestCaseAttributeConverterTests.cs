@@ -243,4 +243,59 @@ namespace n2x
 }");
         }
     }
+
+    public class when_converting_TestCase_with_multiple_Categories : behaves_like_converting_TestCaseAttribute
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+               @"using NUnit.Framework;
+
+                namespace n2x
+                {
+                    public class Test
+                    {
+                        [TestCase(""slow"", Category = ""slow"")]
+                        [TestCase(""fast"", Category = ""fast"")]
+                        public void should_do_the_magic()
+                        {
+                        }
+                     }
+                }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        [Xunit.TraitAttribute(""Category"", ""slow"")]
+        [Xunit.TraitAttribute(""Category"", ""fast"")]
+        [Xunit.Extensions.TheoryAttribute]
+        [Xunit.Extensions.InlineDataAttribute(""slow"")]
+        [Xunit.Extensions.InlineDataAttribute(""fast"")]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
+        }
+
+        [Fact]
+        public void should_add_Trait_attribute_with_category_for_each_case()
+        {
+            var traitAttributesCount = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .Count(a => a.IsOfType<TraitAttribute>(SemanticModel));
+
+            Assert.Equal(2, traitAttributesCount);
+        }
+    }
 }
