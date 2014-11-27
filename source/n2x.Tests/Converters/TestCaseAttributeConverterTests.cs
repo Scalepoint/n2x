@@ -7,7 +7,9 @@ using n2x.Converter.Utils;
 using n2x.Tests.Utils;
 using NUnit.Framework;
 using Xunit;
+using Xunit.Extensions;
 using Assert = Xunit.Assert;
+using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 
 namespace n2x.Tests.Converters
 {
@@ -26,7 +28,7 @@ namespace n2x.Tests.Converters
                 {
                     public class Test
                     {
-                        [TestCase(""popermo"", Category = ""slow"")]
+                        [TestCase(""val1"", Category = ""slow"")]
                         public void should_do_the_magic()
                         {
                         }
@@ -63,6 +65,8 @@ namespace n2x
     public class Test
     {
         [Xunit.TraitAttribute(""Category"", ""slow"")]
+        [Xunit.Extensions.TheoryAttribute]
+        [Xunit.Extensions.InlineDataAttribute(""val1"")]
         public void should_do_the_magic()
         {
         }
@@ -92,6 +96,151 @@ namespace n2x
 
             Assert.True(keyArgInfo.HasValue && (string)keyArgInfo.Value == "Category");
             Assert.True(valueArg.HasValue && (string)valueArg.Value == "slow");
+        }
+
+        [Fact]
+        public void should_add_Theory_attribute()
+        {
+            var theoryAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .FirstOrDefault(a => a.IsOfType<TheoryAttribute>(SemanticModel));
+
+            Assert.NotNull(theoryAttribute);
+        }
+
+        [Fact]
+        public void should_add_InlineData_attribute()
+        {
+            var inlineDataAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .FirstOrDefault(a => a.IsOfType<InlineDataAttribute>(SemanticModel));
+
+            Assert.NotNull(inlineDataAttribute);
+        }
+    }
+
+    public class when_converting_TestCase_without_Category : behaves_like_converting_TestCaseAttribute
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+               @"using NUnit.Framework;
+
+                namespace n2x
+                {
+                    public class Test
+                    {
+                        [TestCase(""val1"")]
+                        [TestCase(""val2"")]
+                        public void should_do_the_magic()
+                        {
+                        }
+                     }
+                }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        [Xunit.Extensions.TheoryAttribute]
+        [Xunit.Extensions.InlineDataAttribute(""val1"")]
+        [Xunit.Extensions.InlineDataAttribute(""val2"")]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
+        }
+
+        [Fact]
+        public void should_not_add_Trait_attribute_with_category()
+        {
+            var traitAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .FirstOrDefault(a => a.IsOfType<TraitAttribute>(SemanticModel));
+
+            Assert.Null(traitAttribute);
+        }
+
+        [Fact]
+        public void should_add_only_one_Theory_attribute()
+        {
+            var theoryAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .FirstOrDefault(a => a.IsOfType<TheoryAttribute>(SemanticModel));
+
+            Assert.NotNull(theoryAttribute);
+        }
+
+        [Fact]
+        public void should_add_InlineData_attributes_for_each_case()
+        {
+            var inlineDataAttributes = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .Count(a => a.IsOfType<InlineDataAttribute>(SemanticModel));
+
+            Assert.Equal(2, inlineDataAttributes);
+        }
+    }
+
+    public class when_converting_TestCase_with_complex_Category : behaves_like_converting_TestCaseAttribute
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+               @"using NUnit.Framework;
+
+                namespace n2x
+                {
+                    public enum TestEnum
+                    {
+                        val1 = 1,
+                        val2 = 2
+                    }
+
+                    public class Test
+                    {
+                        [TestCase(TestEnum.val1)]
+                        [TestCase(TestEnum.val2)]
+                        public void should_do_the_magic()
+                        {
+                        }
+                     }
+                }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public enum TestEnum
+    {
+        val1 = 1,
+        val2 = 2
+    }
+
+    public class Test
+    {
+        [Xunit.Extensions.TheoryAttribute]
+        [Xunit.Extensions.InlineDataAttribute(TestEnum.val1)]
+        [Xunit.Extensions.InlineDataAttribute(TestEnum.val2)]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
         }
     }
 }

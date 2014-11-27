@@ -94,6 +94,7 @@
     <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeRemover.cs" />
     <Compile Include="Converters\TestCaseAttribute\TestCaseCategoryReplacer.cs" />
     <Compile Include="Converters\Common\EmptyClassAttributeListRemover.cs" />
+    <Compile Include="Converters\TestCaseAttribute\TestCaseTheoryAdder.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeConverter.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeRemover.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TraitCategoryAdder.cs" />
