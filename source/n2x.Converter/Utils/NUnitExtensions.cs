@@ -48,6 +48,14 @@ namespace n2x.Converter.Utils
                     .Any(a => a.IsOfType<TestCaseAttribute>(semanticModel)));
         }
 
+        public static IEnumerable<MethodDeclarationSyntax> GetExplicitMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>()
+                .Where(m => m.AttributeLists
+                    .SelectMany(a => a.Attributes)
+                    .Any(a => a.IsOfType<ExplicitAttribute>(semanticModel)));
+        }
+
         public static bool HasTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.GetTestFixtureSetUpMethods(semanticModel).Any();
