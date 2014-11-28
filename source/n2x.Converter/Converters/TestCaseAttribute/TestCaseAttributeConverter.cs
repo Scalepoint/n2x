@@ -7,7 +7,6 @@ namespace n2x.Converter.Converters.TestCaseAttribute
     {
         protected override IEnumerable<IConverter> GetConverters()
         {
-            yield return new TestCaseCategoryReplacer();
             yield return new TestCaseTheoryAdder();
             yield return new TestCaseAttributeRemover();
             yield return new EmptyMethodAttributeListRemover();
