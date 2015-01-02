@@ -8,7 +8,7 @@ namespace n2x.Converter.Converters.TestCaseAttribute
         protected override IEnumerable<IConverter> GetConverters()
         {
             yield return new TestCaseTheoryAdder();
-            yield return new TestCaseAttributeRemover();
+            yield return new MethodAttributeRemover<NUnit.Framework.TestCaseAttribute>();
             yield return new EmptyMethodAttributeListRemover();
         }
     }

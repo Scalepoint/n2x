@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.TearDownAttribute
 {
@@ -8,7 +9,7 @@ namespace n2x.Converter.Converters.TearDownAttribute
         {
             yield return new DisposableInterfaceImplementer();
             yield return new TearDownMethodMover();
-            yield return new TearDownMethodRemover();
+            yield return new MethodRemover<NUnit.Framework.TearDownAttribute>();
         }
     }
 }

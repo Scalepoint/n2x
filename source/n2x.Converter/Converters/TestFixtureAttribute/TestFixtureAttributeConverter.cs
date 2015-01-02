@@ -8,7 +8,7 @@ namespace n2x.Converter.Converters.TestFixtureAttribute
         protected override IEnumerable<IConverter> GetConverters()
         {
             yield return new TraitCategoryAdder();
-            yield return new TestFixtureAttributeRemover();
+            yield return new ClassAttributeRemover<NUnit.Framework.TestFixtureAttribute>();
             yield return new EmptyClassAttributeListRemover();
         }
     }
