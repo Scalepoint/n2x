@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22129.1
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n2x.Console", "n2x.Console\n2x.Console.csproj", "{E5BDC38B-82FD-4FA3-91B0-D46266E1E9C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n2x.Tests", "n2x.Tests\n2x.Tests.csproj", "{FD728197-4764-4F71-991C-352BDD18E4DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n2x.Converter", "n2x.Converter\n2x.Converter.csproj", "{C572227F-EE1B-427A-B1F0-E47E1F731621}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7DFD9822-BF37-4B58-B012-E9802313CD3A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

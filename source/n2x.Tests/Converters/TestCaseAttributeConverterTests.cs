@@ -9,7 +9,6 @@ using NUnit.Framework;
 using Xunit;
 using Xunit.Extensions;
 using Assert = Xunit.Assert;
-using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 
 namespace n2x.Tests.Converters
 {
@@ -64,8 +63,8 @@ namespace n2x
 {
     public class Test
     {
-        [Xunit.Extensions.TheoryAttribute]
-        [Xunit.Extensions.InlineDataAttribute(""val1"")]
+        [Xunit.TheoryAttribute]
+        [Xunit.InlineDataAttribute(""val1"")]
         public void should_do_the_magic()
         {
         }
@@ -86,7 +85,7 @@ namespace n2x
         public void should_add_Theory_attribute()
         {
             var theoryAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
-                .FirstOrDefault(a => a.IsOfType<TheoryAttribute>(SemanticModel));
+                .FirstOrDefault(a => a.IsOfType<Xunit.TheoryAttribute>(SemanticModel));
 
             Assert.NotNull(theoryAttribute);
         }
@@ -134,9 +133,9 @@ namespace n2x
 {
     public class Test
     {
-        [Xunit.Extensions.TheoryAttribute]
-        [Xunit.Extensions.InlineDataAttribute(""val1"")]
-        [Xunit.Extensions.InlineDataAttribute(""val2"")]
+        [Xunit.TheoryAttribute]
+        [Xunit.InlineDataAttribute(""val1"")]
+        [Xunit.InlineDataAttribute(""val2"")]
         public void should_do_the_magic()
         {
         }
@@ -148,7 +147,7 @@ namespace n2x
         public void should_add_only_one_Theory_attribute()
         {
             var theoryAttributes = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
-                .Count(a => a.IsOfType<TheoryAttribute>(SemanticModel));
+                .Count(a => a.IsOfType<Xunit.TheoryAttribute>(SemanticModel));
 
             Assert.Equal(1, theoryAttributes);
         }

@@ -53,7 +53,7 @@ namespace n2x.Tests.Utils
                 throw new Exception("Could not obtain Xunit assembly reference path");
             }
 
-            var xUnitExtensionsAssemblyPath = Path.GetDirectoryName(typeof(Xunit.Extensions.TheoryAttribute).Assembly.Location);
+            var xUnitExtensionsAssemblyPath = Path.GetDirectoryName(typeof(Xunit.TheoryAttribute).Assembly.Location);
             if (xUnitExtensionsAssemblyPath == null)
             {
                 throw new Exception("Could not obtain Xunit extensions assembly reference path");
@@ -88,7 +88,7 @@ namespace n2x.Tests.Utils
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.Core.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(nUnitAssemblyPath, "nunit.framework.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.dll")))
+                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.core.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitExtensionsAssemblyPath, "xunit.extensions.dll")))
 
                 .AddDocument("code", SourceText.From(text));

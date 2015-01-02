@@ -59,7 +59,7 @@ namespace n2x.Tests.Converters
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            Xunit.Assert.DoesNotThrow(delegate { var s = 10; });
+            //Xunit.Assert.DoesNotThrow(delegate { var s = 10; });
 
             Assert.Equal(code,
                 @"using NUnit.Framework;

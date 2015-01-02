@@ -85,12 +85,12 @@ namespace n2x
         }
 
         [Fact]
-        public void should_add_IUseFixture_implementation_to_test_class()
+        public void should_add_IClassFixture_implementation_to_test_class()
         {
             Assert.NotNull(TestClassSyntax.BaseList);
-            var hasIUseFixtureInterface = TestClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.IsIUseFixtureInterfaceOf("n2x.TestData"));
+            var hasIClassFixtureInterface = TestClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.IsIClassFixtureInterfaceOf("n2x.TestData"));
 
-            Assert.True(hasIUseFixtureInterface);
+            Assert.True(hasIClassFixtureInterface);
         }
 
         [Fact]
@@ -218,7 +218,7 @@ namespace n2x
         }
     }
 
-    public class Test : Xunit.IUseFixture<TestData>
+    public class Test : Xunit.IClassFixture<TestData>
     {
         [Test]
         public void should_do_the_magic()
