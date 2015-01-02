@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.TestFixture
 {
@@ -10,9 +11,9 @@ namespace n2x.Converter.Converters.TestFixture
             yield return new TestDataClassCreator();
             yield return new UseFixtureImplementor();
             yield return new TestFixtureSetUpMethodMover();
-            yield return new TestFixtureSetUpMethodRemover();
+            yield return new MethodRemover<NUnit.Framework.TestFixtureSetUpAttribute>();
             yield return new TestFixtureTearDownMethodMover();
-            yield return new TestFixtureTearDownMethodRemover();
+            yield return new MethodRemover<NUnit.Framework.TestFixtureTearDownAttribute>();
         }
     }
 }

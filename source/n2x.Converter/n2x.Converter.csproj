@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Converters\Common\ClassAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
+    <Compile Include="Converters\Common\MethodRemover.cs" />
     <Compile Include="Converters\Common\MethodAttributeRemover.cs" />
     <Compile Include="Converters\DocumentConverter.cs" />
     <Compile Include="Converters\ExplicitAttribute\ClassExplicitAttributeReplacer.cs" />
@@ -92,26 +93,20 @@
     <Compile Include="Converters\IDocumentConverter.cs" />
     <Compile Include="Converters\SetUp\SetUpConverter.cs" />
     <Compile Include="Converters\SetUp\SetUpMethodMover.cs" />
-    <Compile Include="Converters\SetUp\SetUpMethodRemover.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeConverter.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeReplacer.cs" />
     <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeConverter.cs" />
-    <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyClassAttributeListRemover.cs" />
     <Compile Include="Converters\TestCaseAttribute\TestCaseTheoryAdder.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeConverter.cs" />
-    <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeRemover.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TraitCategoryAdder.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureTearDownMethodMover.cs" />
-    <Compile Include="Converters\TestFixture\TestFixtureTearDownMethodRemover.cs" />
     <Compile Include="Converters\TestFixture\UseFixtureImplementor.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodMover.cs" />
-    <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodRemover.cs" />
     <Compile Include="Converters\TestFixture\TestDataClassCreator.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureConverter.cs" />
     <Compile Include="Converters\TearDownAttribute\DisposableInterfaceImplementer.cs" />
     <Compile Include="Converters\TearDownAttribute\TearDownMethodMover.cs" />
-    <Compile Include="Converters\TearDownAttribute\TearDownMethodRemover.cs" />
     <Compile Include="Converters\TearDownAttribute\TearDownAttributeConverter.cs" />
     <Compile Include="Generators\ExpressionGenerator.cs" />
     <Compile Include="IN2XConverter.cs" />
