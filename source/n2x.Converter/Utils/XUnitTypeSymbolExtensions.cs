@@ -51,5 +51,10 @@ namespace n2x.Converter.Utils
                 && keyArgInfo.HasValue && (string)keyArgInfo.Value == key
                 && valueArg.HasValue && (string)valueArg.Value == value;
         }
+
+        public static IEnumerable<MethodDeclarationSyntax> GetFactMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.GetClassMethods<FactAttribute>(semanticModel);
+        }
     }
 }

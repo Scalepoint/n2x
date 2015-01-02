@@ -10,50 +10,37 @@ namespace n2x.Converter.Utils
     {
         public static IEnumerable<MethodDeclarationSyntax> GetTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<TestFixtureSetUpAttribute>(semanticModel)));
+            return @class.GetClassMethods<TestFixtureSetUpAttribute>(semanticModel);
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTestFixtureTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(semanticModel)));
+            return @class.GetClassMethods<TestFixtureTearDownAttribute>(semanticModel);
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<TearDownAttribute>(semanticModel)));
+            return @class.GetClassMethods<TearDownAttribute>(semanticModel);
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTestMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<TestAttribute>(semanticModel)));
+            return @class.GetClassMethods<TestAttribute>(semanticModel);
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTestCaseMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<TestCaseAttribute>(semanticModel)));
+            return @class.GetClassMethods<TestCaseAttribute>(semanticModel);
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetExplicitMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<ExplicitAttribute>(semanticModel)));
+            return @class.GetClassMethods<ExplicitAttribute>(semanticModel);
+        }
+
+        public static IEnumerable<MethodDeclarationSyntax> GetSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.GetClassMethods<SetUpAttribute>(semanticModel);
         }
 
         public static bool HasTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
@@ -71,9 +58,10 @@ namespace n2x.Converter.Utils
             return @class.GetTearDownMethods(semanticModel).Any();
         }
 
-        public static IEnumerable<MethodDeclarationSyntax> GetSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        public static bool HasSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>().DecoratedWith<SetUpAttribute>(semanticModel);
+            return @class.GetSetUpMethods(semanticModel).Any();
         }
+
     }
 }

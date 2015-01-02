@@ -27,7 +27,7 @@ namespace n2x.Tests.Converters
                     public class Test
                     {
                         [Explicit]
-                        [Test]
+                        [Xunit.FactAttribute]
                         public void should_do_the_magic()
                         {
                         }
@@ -50,7 +50,7 @@ namespace n2x.Tests.Converters
         }
     }
 
-    public class when_converting_ExplicitAttribute : behaves_like_converting_ExplicitAttribute
+    public class when_converting_ExplicitAttribute_on_method : behaves_like_converting_ExplicitAttribute
     {
         [Fact]
         public void should_match_etalon_document()
@@ -65,7 +65,6 @@ namespace n2x
     public class Test
     {
         [Xunit.FactAttribute(Skip = ""Explicit"")]
-        [Test]
         public void should_do_the_magic()
         {
         }
@@ -77,6 +76,71 @@ namespace n2x
         public void should_remove_ExplicitAttribute()
         {
             var hasExplicitAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .Any(a => a.IsOfType<ExplicitAttribute>(SemanticModel));
+
+            Assert.False(hasExplicitAttribute);
+        }
+
+        [Fact]
+        public void should_add_FactAttribute()
+        {
+            var factAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .FirstOrDefault(a => a.IsOfType<FactAttribute>(SemanticModel));
+            Assert.NotNull(factAttribute);
+
+            var skipArgument = factAttribute.ArgumentList?.Arguments.First();
+            Assert.NotNull(skipArgument);
+
+            Assert.Equal("Skip = \"Explicit\"", skipArgument.ToString());
+        }
+    }
+
+    public class when_converting_ExplicitAttribute_on_class : behaves_like_converting_ExplicitAttribute
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+               @"using NUnit.Framework;
+
+                namespace n2x
+                {
+                    [Explicit]
+                    public class Test
+                    {
+                        [Xunit.FactAttribute]
+                        public void should_do_the_magic()
+                        {
+                        }
+                     }
+                }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        [Xunit.FactAttribute(Skip = ""Explicit"")]
+        public void should_do_the_magic()
+        {
+        }
+    }
+}");
+        }
+
+        [Fact]
+        public void should_remove_ExplicitAttribute()
+        {
+            var hasExplicitAttribute = TestClassSyntax.AttributeLists.SelectMany(a => a.Attributes)
                 .Any(a => a.IsOfType<ExplicitAttribute>(SemanticModel));
 
             Assert.False(hasExplicitAttribute);
