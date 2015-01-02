@@ -84,10 +84,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Common\ClassAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
+    <Compile Include="Converters\Common\MethodAttributeRemover.cs" />
     <Compile Include="Converters\DocumentConverter.cs" />
+    <Compile Include="Converters\ExplicitAttribute\ClassExplicitAttributeReplacer.cs" />
     <Compile Include="Converters\ExplicitAttribute\ExplicitAttributeConverter.cs" />
-    <Compile Include="Converters\ExplicitAttribute\ExplicitAttributeReplacer.cs" />
+    <Compile Include="Converters\ExplicitAttribute\MethodExplicitAttributeReplacer.cs" />
     <Compile Include="Converters\IDocumentConverter.cs" />
     <Compile Include="Converters\SetUp\SetUpConverter.cs" />
     <Compile Include="Converters\SetUp\SetUpMethodMover.cs" />

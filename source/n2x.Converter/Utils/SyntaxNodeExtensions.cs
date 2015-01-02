@@ -65,6 +65,12 @@ namespace n2x.Converter.Utils
                 .Where(a => a.IsOfType<T>(semanticModel));
         }
 
+        public static AttributeSyntax GetAttribute<T>(this MethodDeclarationSyntax @this, SemanticModel semanticModel)
+            where T : Attribute
+        {
+            return @this.GetAttributes<T>(semanticModel).SingleOrDefault();
+        }
+
         public static bool HasDisposableBaseClass(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             var baseClasses = @class.BaseList.Types.OfType<IdentifierNameSyntax>()
@@ -106,6 +112,14 @@ namespace n2x.Converter.Utils
         {
             var attributeList = SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(new[] { attribute }));
             return method.AddAttributeLists(attributeList);
+        }
+
+        public static IEnumerable<MethodDeclarationSyntax> GetClassMethods<T>(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>()
+                .Where(m => m.AttributeLists
+                    .SelectMany(a => a.Attributes)
+                    .Any(a => a.IsOfType<T>(semanticModel)));
         }
     }
 }

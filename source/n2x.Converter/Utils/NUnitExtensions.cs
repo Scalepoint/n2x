@@ -8,14 +8,6 @@ namespace n2x.Converter.Utils
 {
     public static class NUnitExtensions
     {
-        public static IEnumerable<MethodDeclarationSyntax> GetClassMethods<T>(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
-        {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
-                .Where(m => m.AttributeLists
-                    .SelectMany(a => a.Attributes)
-                    .Any(a => a.IsOfType<T>(semanticModel)));
-        }
-
         public static IEnumerable<MethodDeclarationSyntax> GetTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.GetClassMethods<TestFixtureSetUpAttribute>(semanticModel);
