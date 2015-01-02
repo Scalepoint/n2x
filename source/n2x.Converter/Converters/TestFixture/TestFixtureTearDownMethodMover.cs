@@ -12,9 +12,9 @@ namespace n2x.Converter.Converters.TestFixture
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
-            foreach (var useFixtureClass in root.GetIUseFixtureClasses(semanticModel))
+            foreach (var useFixtureClass in root.GetIClassFixtureClasses(semanticModel))
             {
-                var testDataClassName = useFixtureClass.GetIUseFixtureTypeArgumentName(semanticModel);
+                var testDataClassName = useFixtureClass.GetIClassFixtureTypeArgumentName(semanticModel);
                 var testDataClass = root.Classes().SingleOrDefault(c => c.Identifier.Text == testDataClassName);
                 var fixtureTearDownMethod = useFixtureClass.GetTestFixtureTearDownMethods(semanticModel).FirstOrDefault();
 

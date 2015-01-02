@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NUnit.Framework;
 
 namespace n2x.Converter.Utils
 {
@@ -98,7 +99,7 @@ namespace n2x.Converter.Utils
 
         public static IEnumerable<ClassDeclarationSyntax> WithSetUpMethods(this IEnumerable<ClassDeclarationSyntax> @this, SemanticModel semanticModel)
         {
-            return @this.Where(c => c.GetSetUpMethods(semanticModel).Any());
+            return @this.Where(c => c.HasSetUpMethods(semanticModel));
         }
 
         public static MethodDeclarationSyntax AddAtribute(this MethodDeclarationSyntax method, AttributeSyntax attribute)

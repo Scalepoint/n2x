@@ -82,8 +82,7 @@ namespace n2x.Tests.Utils
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.Core.dll")))
                 .AddMetadataReference(new MetadataFileReference(Path.Combine(nUnitAssemblyPath, "nunit.framework.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.extensions.dll")))
+                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.core.dll")))
 
                 .AddDocument("code", SourceText.From(text));
         }

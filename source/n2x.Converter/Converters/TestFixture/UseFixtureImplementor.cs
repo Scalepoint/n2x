@@ -14,12 +14,12 @@ namespace n2x.Converter.Converters.TestFixture
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
             foreach (var @class in root.Classes())
             {
-                var needsIUseFixtureImplementation = @class.HasTestFixtureSetUpMethods(semanticModel) 
+                var needsIClassFixtureImplementation = @class.HasTestFixtureSetUpMethods(semanticModel) 
                     || @class.HasTestFixtureTearDownMethods(semanticModel);
 
-                if (needsIUseFixtureImplementation)
+                if (needsIClassFixtureImplementation)
                 {
-                    var baseType = GetIUseFixtureDeclarationSyntax(@class);
+                    var baseType = GetIClassFixtureDeclarationSyntax(@class);
                     var newMembers = new MemberDeclarationSyntax[]
                     {
                         GetTestDataPropertyDeclaration(@class),
@@ -43,9 +43,9 @@ namespace n2x.Converter.Converters.TestFixture
             return root;
         }
 
-        private static TypeSyntax GetIUseFixtureDeclarationSyntax(ClassDeclarationSyntax @class)
+        private static TypeSyntax GetIClassFixtureDeclarationSyntax(ClassDeclarationSyntax @class)
         {
-            return SyntaxFactory.ParseTypeName(string.Format("Xunit.IUseFixture<{0}>", @class.Identifier.Text + "Data"));
+            return SyntaxFactory.ParseTypeName(string.Format("Xunit.IClassFixture<{0}>", @class.Identifier.Text + "Data"));
         }
 
         private static PropertyDeclarationSyntax GetTestDataPropertyDeclaration(ClassDeclarationSyntax @class)
