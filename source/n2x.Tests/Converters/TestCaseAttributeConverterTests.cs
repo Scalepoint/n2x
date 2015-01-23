@@ -147,10 +147,10 @@ namespace n2x
         [Fact]
         public void should_add_only_one_Theory_attribute()
         {
-            var theoryAttribute = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
-                .FirstOrDefault(a => a.IsOfType<TheoryAttribute>(SemanticModel));
+            var theoryAttributes = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().SelectMany(p => p.AttributeLists.SelectMany(a => a.Attributes))
+                .Count(a => a.IsOfType<TheoryAttribute>(SemanticModel));
 
-            Assert.NotNull(theoryAttribute);
+            Assert.Equal(1, theoryAttributes);
         }
 
         [Fact]

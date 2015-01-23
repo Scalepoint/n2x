@@ -78,9 +78,6 @@
     <Reference Include="xunit">
       <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.execution">
-      <HintPath>..\packages\xunit.execution.2.0.0-aspnet-beta2-10058\lib\net45\xunit.execution.dll</HintPath>
-    </Reference>
     <Reference Include="xunit.extensions">
       <HintPath>..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
     </Reference>
