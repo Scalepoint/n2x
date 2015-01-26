@@ -82,6 +82,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Asserts\SimpleAssertsReplacer.cs" />
+    <Compile Include="Converters\Asserts\AssertsConverter.cs" />
+    <Compile Include="Converters\Asserts\ThatAssertConverter.cs" />
     <Compile Include="Converters\Common\ClassAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
     <Compile Include="Converters\Common\MethodRemover.cs" />

@@ -26,5 +26,19 @@ namespace n2x.Converter.Generators
 
             return attribute.NormalizeWhitespace();
         }
+
+        public static ExpressionStatementSyntax CreateAssertExpression(string methodName, ArgumentSyntax firstArgument, ArgumentSyntax secondArgument = null)
+        {
+            var expressionString = secondArgument == null
+                ? string.Format("Xunit.Assert.{0}({1})", methodName, firstArgument)
+                : string.Format("Xunit.Assert.{0}({1}, {2})", methodName, firstArgument, secondArgument);
+            return SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(expressionString));
+        }
+
+        public static ExpressionStatementSyntax CreateAssertExpression(string methodName, ArgumentListSyntax arguments)
+        {
+            var expressionString = string.Format("Xunit.Assert.{0}{1}", methodName, arguments);
+            return SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(expressionString));
+        }
     }
 }

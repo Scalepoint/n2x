@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using n2x.Converter.Converters;
+using n2x.Converter.Converters.Asserts;
 using n2x.Converter.Converters.ExplicitAttribute;
 using n2x.Converter.Converters.SetUp;
 using n2x.Converter.Converters.TestFixture;
@@ -23,6 +24,7 @@ namespace n2x.Converter
                 new TestAttributeConverter(),
                 new TestCaseAttributeConverter(),
                 new ExplicitAttributeConverter(),
+                new AssertsConverter(),
             };
         }
 

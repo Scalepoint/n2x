@@ -14,6 +14,11 @@ namespace n2x.Converter.Utils
             return root.DescendantNodes().OfType<ClassDeclarationSyntax>();
         }
 
+        public static IEnumerable<MethodDeclarationSyntax> Methods(this ClassDeclarationSyntax @class)
+        {
+            return @class.Members.OfType<MethodDeclarationSyntax>();
+        }
+
         public static ClassDeclarationSyntax FirstClass(this SyntaxNode root)
         {
             return root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
