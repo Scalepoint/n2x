@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\Asserts\SimpleAssertsReplacer.cs" />
-    <Compile Include="Converters\Asserts\AssertsConverter.cs" />
+    <Compile Include="Converters\Asserts\AssertsConverterProvider.cs" />
     <Compile Include="Converters\Asserts\ThatAssertConverter.cs" />
     <Compile Include="Converters\Common\ClassAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
@@ -91,28 +91,29 @@
     <Compile Include="Converters\Common\MethodAttributeRemover.cs" />
     <Compile Include="Converters\DocumentConverter.cs" />
     <Compile Include="Converters\ExplicitAttribute\ClassExplicitAttributeReplacer.cs" />
-    <Compile Include="Converters\ExplicitAttribute\ExplicitAttributeConverter.cs" />
+    <Compile Include="Converters\ExplicitAttribute\ExplicitAttributeConverterProvider.cs" />
     <Compile Include="Converters\ExplicitAttribute\MethodExplicitAttributeReplacer.cs" />
+    <Compile Include="Converters\IConverterProvider.cs" />
     <Compile Include="Converters\IDocumentConverter.cs" />
-    <Compile Include="Converters\Using\UsingConverter.cs" />
+    <Compile Include="Converters\Using\UsingConverterProvider.cs" />
     <Compile Include="Converters\Using\UsingReplacer.cs" />
-    <Compile Include="Converters\SetUp\SetUpConverter.cs" />
+    <Compile Include="Converters\SetUp\SetUpConverterProvider.cs" />
     <Compile Include="Converters\SetUp\SetUpMethodMover.cs" />
-    <Compile Include="Converters\TestAttribute\TestAttributeConverter.cs" />
+    <Compile Include="Converters\TestAttribute\TestAttributeConverterProvider.cs" />
     <Compile Include="Converters\TestAttribute\TestAttributeReplacer.cs" />
-    <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeConverter.cs" />
+    <Compile Include="Converters\TestCaseAttribute\TestCaseAttributeConverterProvider.cs" />
     <Compile Include="Converters\Common\EmptyClassAttributeListRemover.cs" />
     <Compile Include="Converters\TestCaseAttribute\TestCaseTheoryAdder.cs" />
-    <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeConverter.cs" />
+    <Compile Include="Converters\TestFixtureAttribute\TestFixtureAttributeConverterProvider.cs" />
     <Compile Include="Converters\TestFixtureAttribute\TraitCategoryAdder.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureTearDownMethodMover.cs" />
     <Compile Include="Converters\TestFixture\UseFixtureImplementor.cs" />
     <Compile Include="Converters\TestFixture\TestFixtureSetUpMethodMover.cs" />
     <Compile Include="Converters\TestFixture\TestDataClassCreator.cs" />
-    <Compile Include="Converters\TestFixture\TestFixtureConverter.cs" />
+    <Compile Include="Converters\TestFixture\TestFixtureConverterProvider.cs" />
     <Compile Include="Converters\TearDownAttribute\DisposableInterfaceImplementer.cs" />
     <Compile Include="Converters\TearDownAttribute\TearDownMethodMover.cs" />
-    <Compile Include="Converters\TearDownAttribute\TearDownAttributeConverter.cs" />
+    <Compile Include="Converters\TearDownAttribute\TearDownAttributeConverterProvider.cs" />
     <Compile Include="Generators\ExpressionGenerator.cs" />
     <Compile Include="IN2XConverter.cs" />
     <Compile Include="Converters\IConverter.cs" />

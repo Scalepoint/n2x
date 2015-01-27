@@ -9,7 +9,7 @@ using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TearDown : ConverterSpecification<TearDownAttributeConverter>
+    public class behaves_like_converting_TearDown : ConverterSpecification<TearDownAttributeConverterProvider>
     {
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
@@ -17,6 +17,8 @@ namespace n2x.Tests.Converters
 
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
                @"using NUnit.Framework;
 
@@ -36,8 +38,6 @@ namespace n2x.Tests.Converters
                         }
                      }
                 }");
-
-            base.Context();
         }
 
         public override void Because()
@@ -45,8 +45,7 @@ namespace n2x.Tests.Converters
             base.Because();
 
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
-            TestClassSyntax =
-                NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
+            TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
             SemanticModel = Result.GetSemanticModelAsync().Result;
 
             Console.Out.WriteLine("{0}", Compilation.ToFullString());

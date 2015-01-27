@@ -18,15 +18,15 @@ namespace n2x.Converter
         {
             Converters = new List<IDocumentConverter>
             {
-                new TestFixtureConverter(),
-                new TestFixtureAttributeConverter(),
-                new SetUpConverter(),
-                new TearDownAttributeConverter(),
-                new TestAttributeConverter(),
-                new TestCaseAttributeConverter(),
-                new ExplicitAttributeConverter(),
-                new AssertsConverter(),
-                new UsingConverter()
+                new DocumentConverter(new TestFixtureConverterProvider()),
+                new DocumentConverter(new TestFixtureAttributeConverterProvider()),
+                new DocumentConverter(new SetUpConverterProvider()),
+                new DocumentConverter(new TearDownAttributeConverterProvider()),
+                new DocumentConverter(new TestAttributeConverterProvider()),
+                new DocumentConverter(new TestCaseAttributeConverterProvider()),
+                new DocumentConverter(new ExplicitAttributeConverterProvider()),
+                new DocumentConverter(new AssertsConverterProvider()),
+                new DocumentConverter(new UsingConverterProvider())
             };
         }
 

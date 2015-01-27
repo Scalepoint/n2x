@@ -11,13 +11,8 @@ using Assert = Xunit.Assert;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TestFixture : Specification
+    public class behaves_like_converting_TestFixture : ConverterSpecification<TestFixtureConverterProvider>
     {
-        protected TestCode Code;
-        protected TestFixtureConverter _converter;
-
-        protected Document Result;
-        protected CompilationUnitSyntax Compilation { get; set; }
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
         protected SemanticModel SemanticModel { get; set; }
@@ -25,6 +20,8 @@ namespace n2x.Tests.Converters
 
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
 @"using NUnit.Framework;
 
@@ -51,14 +48,12 @@ namespace n2x
     }
 }");
 
-            _converter = new TestFixtureConverter();
         }
 
         public override void Because()
         {
-            Result = _converter.Convert(Code.Document);
+            base.Because();
 
-            Compilation = (CompilationUnitSyntax)Result.GetSyntaxRootAsync().Result;
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
             TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
             TestDataClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().SingleOrDefault(c => c.Identifier.Text == "TestData");

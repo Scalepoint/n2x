@@ -2,9 +2,9 @@
 
 namespace n2x.Converter.Converters.Using
 {
-    public class UsingConverter : DocumentConverter
+    public class UsingConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new UsingReplacer();
         }

@@ -13,7 +13,7 @@ using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TestCaseAttribute : ConverterSpecification<TestCaseAttributeConverter>
+    public class behaves_like_converting_TestCaseAttribute : ConverterSpecification<TestCaseAttributeConverterProvider>
     {
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
@@ -21,6 +21,8 @@ namespace n2x.Tests.Converters
 
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
                @"using NUnit.Framework;
 
@@ -34,8 +36,6 @@ namespace n2x.Tests.Converters
                         }
                      }
                 }");
-
-            base.Context();
         }
 
         public override void Because()

@@ -2,9 +2,9 @@
 
 namespace n2x.Converter.Converters.TestAttribute
 {
-    public class TestAttributeConverter : DocumentConverter
+    public class TestAttributeConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new TestAttributeReplacer();
         }

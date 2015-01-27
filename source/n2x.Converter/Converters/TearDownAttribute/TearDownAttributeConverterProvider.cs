@@ -3,9 +3,9 @@ using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.TearDownAttribute
 {
-    public class TearDownAttributeConverter : DocumentConverter
+    public class TearDownAttributeConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new DisposableInterfaceImplementer();
             yield return new TearDownMethodMover();

@@ -4,9 +4,9 @@ using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.TestFixture
 {
-    public class TestFixtureConverter : DocumentConverter
+    public class TestFixtureConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new TestDataClassCreator();
             yield return new UseFixtureImplementor();

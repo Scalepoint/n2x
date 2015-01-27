@@ -9,7 +9,7 @@ using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_using : ConverterSpecification<UsingConverter>
+    public class behaves_like_converting_using : ConverterSpecification<UsingConverterProvider>
     {
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }

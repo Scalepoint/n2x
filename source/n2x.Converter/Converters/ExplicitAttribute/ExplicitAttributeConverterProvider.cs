@@ -3,9 +3,9 @@ using n2x.Converter.Converters.Common;
 
 namespace n2x.Converter.Converters.ExplicitAttribute
 {
-    public class ExplicitAttributeConverter : DocumentConverter
+    public class ExplicitAttributeConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new ClassExplicitAttributeReplacer();
             yield return new ClassAttributeRemover<NUnit.Framework.ExplicitAttribute>();

@@ -11,13 +11,9 @@ using Assert = Xunit.Assert;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TestFixtureAttribute : Specification
+    public class behaves_like_converting_TestFixtureAttribute : ConverterSpecification<TestFixtureAttributeConverterProvider>
     {
-        protected TestCode Code;
-        protected TestFixtureAttributeConverter _converter;
-
-        protected Document Result;
-        protected CompilationUnitSyntax Compilation { get; set; }
+        
         protected SyntaxTree SyntaxTree { get; set; }
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
@@ -26,8 +22,10 @@ namespace n2x.Tests.Converters
 
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
-@"using NUnit.Framework;
+                @"using NUnit.Framework;
 
 namespace n2x
 {
@@ -48,14 +46,12 @@ namespace n2x
     }
 }");
 
-            _converter = new TestFixtureAttributeConverter();
         }
 
         public override void Because()
         {
-            Result = _converter.Convert(Code.Document);
+            base.Because();
 
-            Compilation = (CompilationUnitSyntax)Result.GetSyntaxRootAsync().Result;
             SyntaxTree = Result.GetSyntaxTreeAsync().Result;
             NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
             TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
@@ -119,6 +115,8 @@ namespace n2x
     {
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
 @"using NUnit.Framework;
 
@@ -134,8 +132,6 @@ namespace n2x
         }
     }
 }");
-
-            _converter = new TestFixtureAttributeConverter();
         }
 
         //TODO: move to base ConvterTest class

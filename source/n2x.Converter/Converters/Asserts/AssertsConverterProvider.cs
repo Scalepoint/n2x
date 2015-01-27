@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace n2x.Converter.Converters.Asserts
 {
-    public class AssertsConverter : DocumentConverter
+    public class AssertsConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new SimpleAssertsReplacer();
             yield return new ThatAssertConverter();

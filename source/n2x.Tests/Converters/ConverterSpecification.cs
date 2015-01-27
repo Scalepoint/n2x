@@ -7,12 +7,12 @@ using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public abstract class ConverterSpecification<TConverter> : Specification
-        where TConverter : DocumentConverter, new()
+    public abstract class ConverterSpecification<TConverterProvider> : Specification
+        where TConverterProvider : IConverterProvider, new()
     {
         protected TestCode Code;
 
-        protected TConverter Converter { get; set; }
+        protected DocumentConverter Converter { get; set; }
 
         protected Document Result;
         protected CompilationUnitSyntax Compilation { get; set; }
@@ -21,7 +21,7 @@ namespace n2x.Tests.Converters
         {
             base.Context();
 
-            Converter = new TConverter();
+            Converter = new DocumentConverter(new TConverterProvider());
         }
 
         public override void Because()

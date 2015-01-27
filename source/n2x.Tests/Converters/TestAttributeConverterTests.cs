@@ -11,7 +11,7 @@ using Assert = Xunit.Assert;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_TestAttribute : ConverterSpecification<TestAttributeConverter>
+    public class behaves_like_converting_TestAttribute : ConverterSpecification<TestAttributeConverterProvider>
     {
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
@@ -19,6 +19,8 @@ namespace n2x.Tests.Converters
 
         public override void Context()
         {
+            base.Context();
+
             Code = new TestCode(
                @"using NUnit.Framework;
 
@@ -37,8 +39,6 @@ namespace n2x.Tests.Converters
                         }
                      }
                 }");
-
-            base.Context();
         }
 
         public override void Because()

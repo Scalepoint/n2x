@@ -5,9 +5,9 @@ using NUnit.Framework;
 
 namespace n2x.Converter.Converters.SetUp
 {
-    public class SetUpConverter : DocumentConverter
+    public class SetUpConverterProvider : IConverterProvider
     {
-        protected override IEnumerable<IConverter> GetConverters()
+        public IEnumerable<IConverter> GetConverters()
         {
             yield return new SetUpMethodMover();
             yield return new MethodRemover<SetUpAttribute>();

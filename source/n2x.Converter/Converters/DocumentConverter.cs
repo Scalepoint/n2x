@@ -1,15 +1,21 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 
 namespace n2x.Converter.Converters
 {
-    public abstract class DocumentConverter : IDocumentConverter
+    public class DocumentConverter : IDocumentConverter
     {
+        private readonly IConverterProvider _converterProvider;
+
+        public DocumentConverter(IConverterProvider converterProvider)
+        {
+            _converterProvider = converterProvider;
+        }
+
         public virtual Document Convert(Document document)
         {
             var result = document;
 
-            foreach (var converter in GetConverters())
+            foreach (var converter in _converterProvider.GetConverters())
             {
                 var root = result.GetSyntaxRootAsync().Result;
                 var semanticModel = result.GetSemanticModelAsync().Result;
@@ -20,7 +26,5 @@ namespace n2x.Converter.Converters
 
             return result;
         }
-
-        protected abstract IEnumerable<IConverter> GetConverters();
     }
 }
