@@ -15,12 +15,7 @@ namespace n2x.Converter.Converters.Common
                 .Where(l => !l.Attributes.Any())
                 .ToList();
 
-            if (emptyLists.Any())
-            {
-                return root.RemoveNodes(emptyLists, SyntaxRemoveOptions.KeepNoTrivia).NormalizeWhitespace();
-            }
-
-            return root;
+            return root.RemoveNodes(emptyLists);
         }
     }
 }

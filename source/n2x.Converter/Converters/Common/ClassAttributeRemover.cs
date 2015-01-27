@@ -15,12 +15,7 @@ namespace n2x.Converter.Converters.Common
                 .SelectMany(c => c.GetAttributes<T>(semanticModel))
                 .ToList();
 
-            if (attributes.Any())
-            {
-                return root.RemoveNodes(attributes, SyntaxRemoveOptions.KeepNoTrivia);
-            }
-
-            return root;
+            return root.RemoveNodes(attributes);
         }
     }
 }

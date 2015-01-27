@@ -8,17 +8,12 @@ namespace n2x.Converter.Converters.Common
     {
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
         {
-            var emptyLists = root.Classes()
+            var emptyAttrLists = root.Classes()
                 .SelectMany(c => c.AttributeLists)
                 .Where(l => !l.Attributes.Any())
                 .ToList();
 
-            if (emptyLists.Any())
-            {
-                return root.RemoveNodes(emptyLists, SyntaxRemoveOptions.KeepNoTrivia).NormalizeWhitespace();
-            }
-
-            return root;
+            return root.RemoveNodes(emptyAttrLists);
         }
     }
 }

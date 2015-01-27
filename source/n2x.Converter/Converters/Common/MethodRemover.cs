@@ -15,12 +15,8 @@ namespace n2x.Converter.Converters.Common
                 .SelectMany(c => c.GetClassMethods<T>(semanticModel))
                 .ToList();
 
-            if (methods.Any())
-            {
-                return root.RemoveNodes(methods, SyntaxRemoveOptions.KeepNoTrivia);
-            }
 
-            return root;
+            return root.RemoveNodes(methods);
         }
     }
 }

@@ -141,5 +141,15 @@ namespace n2x.Converter.Utils
 
             return root;
         }
+
+        public static SyntaxNode RemoveNodes(this SyntaxNode root, IEnumerable<SyntaxNode> attributes)
+        {
+            if (attributes.Any())
+            {
+                return root.RemoveNodes(attributes, SyntaxRemoveOptions.KeepNoTrivia).NormalizeWhitespace();
+            }
+
+            return root;
+        }
     }
 }
