@@ -40,5 +40,11 @@ namespace n2x.Converter.Generators
             var expressionString = string.Format("Xunit.Assert.{0}{1}", methodName, arguments);
             return SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(expressionString));
         }
+
+        public static UsingDirectiveSyntax GenerateXunitUsing()
+        {
+            return SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("Xunit"));
+        }
+
     }
 }

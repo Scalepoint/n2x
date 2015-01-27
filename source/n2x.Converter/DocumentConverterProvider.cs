@@ -8,6 +8,7 @@ using n2x.Converter.Converters.TestFixtureAttribute;
 using n2x.Converter.Converters.TearDownAttribute;
 using n2x.Converter.Converters.TestAttribute;
 using n2x.Converter.Converters.TestCaseAttribute;
+using n2x.Converter.Converters.Using;
 
 namespace n2x.Converter
 {
@@ -25,6 +26,7 @@ namespace n2x.Converter
                 new TestCaseAttributeConverter(),
                 new ExplicitAttributeConverter(),
                 new AssertsConverter(),
+                new UsingConverter()
             };
         }
 

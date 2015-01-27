@@ -18,6 +18,10 @@ namespace n2x.Converter.Utils
         {
             return @class.Members.OfType<MethodDeclarationSyntax>();
         }
+        public static IEnumerable<UsingDirectiveSyntax> Usings(this SyntaxNode root)
+        {
+            return root.DescendantNodes().OfType<UsingDirectiveSyntax>();
+        }
 
         public static ClassDeclarationSyntax FirstClass(this SyntaxNode root)
         {
