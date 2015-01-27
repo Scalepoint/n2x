@@ -129,5 +129,17 @@ namespace n2x.Converter.Utils
                     .SelectMany(a => a.Attributes)
                     .Any(a => a.IsOfType<T>(semanticModel)));
         }
+
+        public static SyntaxNode ReplaceNodes(this SyntaxNode root, Dictionary<SyntaxNode, SyntaxNode> dict)
+        {
+            if (dict.Any())
+            {
+                return root
+                    .ReplaceNodes(dict.Keys, (n1, n2) => dict[n1])
+                    .NormalizeWhitespace();
+            }
+
+            return root;
+        }
     }
 }
