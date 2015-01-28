@@ -18,6 +18,7 @@ namespace n2x.Converter.Utils
         {
             return @class.Members.OfType<MethodDeclarationSyntax>();
         }
+
         public static IEnumerable<UsingDirectiveSyntax> Usings(this SyntaxNode root)
         {
             return root.DescendantNodes().OfType<UsingDirectiveSyntax>();
@@ -97,7 +98,7 @@ namespace n2x.Converter.Utils
 
         public static MethodDeclarationSyntax GetDisposeMethod(this ClassDeclarationSyntax @class)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>().FirstOrDefault(m => m.Identifier.Text == "Dispose");
+            return @class.Methods().FirstOrDefault(m => m.Identifier.Text == "Dispose");
         }
 
         public static bool HasDisposeMethod(this ClassDeclarationSyntax @class)
@@ -124,7 +125,7 @@ namespace n2x.Converter.Utils
 
         public static IEnumerable<MethodDeclarationSyntax> GetClassMethods<T>(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.Members.OfType<MethodDeclarationSyntax>()
+            return @class.Methods()
                 .Where(m => m.AttributeLists
                     .SelectMany(a => a.Attributes)
                     .Any(a => a.IsOfType<T>(semanticModel)));

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -56,21 +55,22 @@ namespace n2x.Converter.Converters.Asserts
                         continue;
                     }
 
-                    var expressionString = invocationExpressionSyntax.Expression.ToString();
-                    ArgumentListSyntax methodArguments = invocationExpressionSyntax.ArgumentList;
+                    var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
-                    if (!expressionString.StartsWith("Assert."))
+                    if (!symbol.IsNunitAssert())
                     {
                         continue;
                     }
 
-                    var methodName = expressionString.Split('.')[1];
+
+                    var methodName = symbol.Name;
 
                     if (methodName != "That")
                     {
                         continue;
                     }
 
+                    ArgumentListSyntax methodArguments = invocationExpressionSyntax.ArgumentList;
                     var actualArgument = methodArguments.Arguments.First();
 
                     if (methodArguments.Arguments.Count == 1 
@@ -90,25 +90,23 @@ namespace n2x.Converter.Converters.Asserts
                             continue;
                         }
 
-                        if (_oneParameterExpressionTransformations.ContainsKey(isArgumentString))
+                        string newMethodName;
+                        if (_oneParameterExpressionTransformations.TryGetValue(isArgumentString, out newMethodName))
                         {
-                            var newMethodName = _oneParameterExpressionTransformations[isArgumentString];
                             var newExpression = ExpressionGenerator.CreateAssertExpression(newMethodName, actualArgument);
 
                             dict.Add(expressionStatementSyntax, newExpression);
                         }
-                        else if (_twoParametersExpressionTransformations.ContainsKey(isArgumentString))
+                        else if (_twoParametersExpressionTransformations.TryGetValue(isArgumentString, out newMethodName))
                         {
-                            var newMethodName = _twoParametersExpressionTransformations[isArgumentString];
                             var expectedArgument = GetFirstArgument(isArgument);
 
                             var newExpression = ExpressionGenerator.CreateAssertExpression(newMethodName, actualArgument,
                                 expectedArgument);
                             dict.Add(expressionStatementSyntax, newExpression);
                         }
-                        else if (_twoParametersReverseExpressionTransformations.ContainsKey(isArgumentString))
+                        else if (_twoParametersReverseExpressionTransformations.TryGetValue(isArgumentString, out newMethodName))
                         {
-                            var newMethodName = _twoParametersReverseExpressionTransformations[isArgumentString];
                             var expectedArgument = GetFirstArgument(isArgument);
 
                             var newExpression = ExpressionGenerator.CreateAssertExpression(newMethodName,

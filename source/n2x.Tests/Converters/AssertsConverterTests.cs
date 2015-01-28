@@ -9,12 +9,26 @@ using Xunit;
 
 namespace n2x.Tests.Converters
 {
-    public class behaves_like_converting_Asserts : ConverterSpecification<AssertsConverterProvider>
+    public abstract class behaves_like_converting_Asserts : ConverterSpecification<AssertsConverterProvider>
     {
         protected NamespaceDeclarationSyntax NamespaceSyntax { get; set; }
         protected ClassDeclarationSyntax TestClassSyntax { get; set; }
         protected SemanticModel SemanticModel { get; set; }
 
+        public override void Because()
+        {
+            base.Because();
+
+            NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
+            TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
+            SemanticModel = Result.GetSemanticModelAsync().Result;
+
+            Console.Out.WriteLine("{0}", Compilation.ToFullString());
+        }
+    }
+
+    public class when_converting_simple_asserts : behaves_like_converting_Asserts
+    {
         public override void Context()
         {
             base.Context();
@@ -39,20 +53,6 @@ namespace n2x.Tests.Converters
             }");
         }
 
-        public override void Because()
-        {
-            base.Because();
-
-            NamespaceSyntax = (NamespaceDeclarationSyntax)Compilation.Members.Single();
-            TestClassSyntax = NamespaceSyntax.Members.OfType<ClassDeclarationSyntax>().Single(c => c.Identifier.Text == "Test");
-            SemanticModel = Result.GetSemanticModelAsync().Result;
-
-            Console.Out.WriteLine("{0}", Compilation.ToFullString());
-        }
-    }
-
-    public class when_converting_simple_asserts : behaves_like_converting_Asserts
-    {
         [Fact]
         public void should_match_etalon_document()
         {

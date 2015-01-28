@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Generators;
 using n2x.Converter.Utils;
+using NUnit.Framework;
 
 namespace n2x.Converter.Converters.Asserts
 {
@@ -49,19 +50,17 @@ namespace n2x.Converter.Converters.Asserts
                         continue;
                     }
 
-                    var expressionString = invocationExpressionSyntax.Expression.ToString();
-                    ArgumentListSyntax methodArguments = invocationExpressionSyntax.ArgumentList;
+                    var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
-                    if (!expressionString.StartsWith("Assert."))
+                    if (!symbol.IsNunitAssert())
                     {
                         continue;
                     }
-
-                    var methodName = expressionString.Split('.')[1];
-                    if (_assertMethodTransformations.ContainsKey(methodName))
+                    var methodName = symbol.Name;
+                    string newMethodName;
+                    if (_assertMethodTransformations.TryGetValue(methodName, out newMethodName))
                     {
-                        var newMethodName = _assertMethodTransformations[methodName];
-                        var newExpression = ExpressionGenerator.CreateAssertExpression(newMethodName, methodArguments);
+                        var newExpression = ExpressionGenerator.CreateAssertExpression(newMethodName, invocationExpressionSyntax.ArgumentList);
 
                         dict.Add(expressionStatementSyntax, newExpression);
                     }
