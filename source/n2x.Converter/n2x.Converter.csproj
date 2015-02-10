@@ -96,6 +96,7 @@
     <Compile Include="Converters\IConverterProvider.cs" />
     <Compile Include="Converters\IDocumentConverter.cs" />
     <Compile Include="Converters\Using\UsingConverterProvider.cs" />
+    <Compile Include="Converters\Using\UsingRemover.cs" />
     <Compile Include="Converters\Using\UsingReplacer.cs" />
     <Compile Include="Converters\SetUp\SetUpConverterProvider.cs" />
     <Compile Include="Converters\SetUp\SetUpMethodMover.cs" />

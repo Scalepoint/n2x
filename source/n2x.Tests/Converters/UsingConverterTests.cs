@@ -55,9 +55,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
             Assert.Equal(code,
-                @"using Xunit;
-
-namespace n2x
+                @"namespace n2x
 {
     public class Test
     {

@@ -6,7 +6,8 @@ namespace n2x.Converter.Converters.Using
     {
         public IEnumerable<IConverter> GetConverters()
         {
-            yield return new UsingReplacer();
+            yield return new UsingRemover();
+            //yield return new UsingReplacer();
         }
     }
 }
