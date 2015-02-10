@@ -63,7 +63,7 @@ namespace n2x.Tests.Converters
 
 namespace n2x
 {
-    public class Test : IDisposable
+    public class Test : System.IDisposable
     {
         [Test]
         public void should_do_the_magic()
@@ -81,7 +81,8 @@ namespace n2x
         [Fact]
         public void should_implement_IDisposable_interface()
         {
-            var isImplementedIDisposable = TestClassSyntax.BaseList.Types.OfType<IdentifierNameSyntax>().Any(p => p.Identifier.Text == "IDisposable");
+            var isImplementedIDisposable = TestClassSyntax.BaseList.Types.OfType<QualifiedNameSyntax>()
+                .Any(p => p.Right.Identifier.Text == "IDisposable");
 
             Assert.True(isImplementedIDisposable);
         }
