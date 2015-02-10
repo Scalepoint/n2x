@@ -51,6 +51,10 @@ namespace n2x.Converter.Converters.Asserts
                     }
 
                     var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
+                    if (symbol == null)
+                    {
+                        continue;
+                    }
 
                     if (!symbol.IsNunitAssert())
                     {
