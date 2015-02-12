@@ -85,6 +85,9 @@
     <Compile Include="Converters\Asserts\SimpleAssertsReplacer.cs" />
     <Compile Include="Converters\Asserts\AssertsConverterProvider.cs" />
     <Compile Include="Converters\Asserts\ThatAssertConverter.cs" />
+    <Compile Include="Converters\CategoryAttribute\CategoryAttributeConverterProvider.cs" />
+    <Compile Include="Converters\CategoryAttribute\OnClassCategoryAttributeReplacer.cs" />
+    <Compile Include="Converters\CategoryAttribute\OnMethodCategoryAttributeReplacer.cs" />
     <Compile Include="Converters\Common\ClassAttributeRemover.cs" />
     <Compile Include="Converters\Common\EmptyMethodAttributeListRemover.cs" />
     <Compile Include="Converters\Common\MethodRemover.cs" />

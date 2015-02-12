@@ -205,7 +205,7 @@ namespace n2x
 
 namespace n2x
 {
-    public class TestData : IDisposable
+    public class TestData : System.IDisposable
     {
         public TestData()
         {

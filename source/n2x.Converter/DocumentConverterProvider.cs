@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using n2x.Converter.Converters;
 using n2x.Converter.Converters.Asserts;
+using n2x.Converter.Converters.CategoryAttribute;
 using n2x.Converter.Converters.ExplicitAttribute;
 using n2x.Converter.Converters.SetUp;
 using n2x.Converter.Converters.TestFixture;
@@ -25,8 +26,9 @@ namespace n2x.Converter
                 new DocumentConverter(new TestAttributeConverterProvider()),
                 new DocumentConverter(new TestCaseAttributeConverterProvider()),
                 new DocumentConverter(new ExplicitAttributeConverterProvider()),
+                new DocumentConverter(new CategoryAttributeConverterProvider()),
                 new DocumentConverter(new AssertsConverterProvider()),
-                new DocumentConverter(new UsingConverterProvider())
+                new DocumentConverter(new UsingConverterProvider()),
             };
         }
 
