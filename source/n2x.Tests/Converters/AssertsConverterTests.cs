@@ -86,10 +86,61 @@ namespace n2x
         }
 
         [Fact]
-        public void should_add_xunit_asserts()
+        public void should_add_simple_xunit_asserts()
         {
             var method = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().First();
             Assert.Equal(5, method.Body.Statements.Count(p => p.ToString().StartsWith("Xunit.Assert.")));
+        }
+    }
+
+    public class when_converting_simple_asserts_with_different_argument_list : behaves_like_converting_Asserts
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+                @"using NUnit.Framework;
+
+            namespace n2x
+            {
+                public class Test
+                {
+                    public void should_do_the_magic()
+                    {
+                        Assert.AreEqual(""a"", ""b"", ""error message"");
+                    }
+                }
+            }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        public void should_do_the_magic()
+        {
+            Xunit.Assert.Equal(""a"", ""b"");
+        }
+    }
+}");
+        }
+
+        [Fact]
+        public void should_add_only_listed_arguments_to_new_assert_invocation()
+        {
+            var assertInvocations = TestClassSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+            Assert.Equal(assertInvocations.Count(), 1);
+            Assert.Equal(2, assertInvocations.ElementAt(0).ArgumentList.Arguments.Count);
         }
     }
 

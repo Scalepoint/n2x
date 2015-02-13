@@ -67,5 +67,11 @@ namespace n2x.Converter.Utils
         {
             return symbol.IsOfType<Assert>();
         }
+
+        public static bool IsNunitAssert(this InvocationExpressionSyntax invocation, SemanticModel semanticModel)
+        {
+            var symbol = semanticModel.GetSymbolInfo(invocation).Symbol;
+            return symbol != null && symbol.IsNunitAssert();
+        }
     }
 }
