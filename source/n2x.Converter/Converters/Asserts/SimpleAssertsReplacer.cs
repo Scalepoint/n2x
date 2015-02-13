@@ -20,14 +20,17 @@ namespace n2x.Converter.Converters.Asserts
             {"AreSame", "Same(expected,actual)"},
             {"Contains", "Contains(expected,actual)"},
             {"IsAssignableFrom", "IsAssignableFrom"},
-            {"IsEmpty", "Empty"},
+            {"IsEmpty", "Empty(collection)" },
             {"IsFalse", "False(condition)" },
+            {"False", "False(condition)" },
             {"IsInstanceOfType", "IsType"},
             {"IsNotEmpty", "NotEmpty"},
             {"IsNotInstanceOfType", "IsNotType"},
             {"IsNotNull", "NotNull(anObject)" },
+            {"NotNull", "NotNull(anObject)" },
             {"IsNull", "Null(anObject)" },
             {"IsTrue", "True(condition)" },
+            {"True", "True(condition)" },
         };
 
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
