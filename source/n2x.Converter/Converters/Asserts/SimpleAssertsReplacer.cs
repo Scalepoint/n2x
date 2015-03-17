@@ -31,6 +31,7 @@ namespace n2x.Converter.Converters.Asserts
             {"IsNull", "Null(anObject)" },
             {"IsTrue", "True(condition)" },
             {"True", "True(condition)" },
+            {"Fail", "True(false,message)" },
         };
 
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
@@ -63,12 +64,22 @@ namespace n2x.Converter.Converters.Asserts
                 return assertInvocation.ArgumentList;
             }
 
-            var symbol = (IMethodSymbol)semanticModel.GetSymbolInfo(assertInvocation).Symbol;
+            var assertInvocationSymbol = (IMethodSymbol)semanticModel.GetSymbolInfo(assertInvocation).Symbol;
 
             var argsPattern = pattern.Substring(i + 1, pattern.Length - i - 2);
+
+
             var result = argsPattern.Split(',')
-                .Select(patternName => symbol.Parameters.Single(p => p.Name == patternName))
-                .Select(param => assertInvocation.ArgumentList.Arguments.ElementAt(param.Ordinal))
+                .Select(patternName =>
+                {
+                    var param = assertInvocationSymbol.Parameters.SingleOrDefault(p => p.Name == patternName);
+                    if (param != null)
+                    {
+                        return assertInvocation.ArgumentList.Arguments.ElementAt(param.Ordinal);
+                    }
+
+                    return SyntaxFactory.Argument(ExpressionGenerator.GenerateValueExpression(patternName, false));
+                })
                 .ToList();
 
             return SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(result));

@@ -144,6 +144,48 @@ namespace n2x
         }
     }
 
+    public class when_converting_simple_asserts_with_constan_values : behaves_like_converting_Asserts
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+                @"using NUnit.Framework;
+
+            namespace n2x
+            {
+                public class Test
+                {
+                    public void should_do_the_magic()
+                    {
+                        Assert.Fail(""The following changes were not found:\n"");
+                    }
+                }
+            }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+
+            Assert.Equal(code,
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        public void should_do_the_magic()
+        {
+            Xunit.Assert.True(false, ""The following changes were not found:\n"");
+        }
+    }
+}");
+        }
+    }
+
     public class when_converting_That_asserts : behaves_like_converting_Asserts
     {
         public override void Context()

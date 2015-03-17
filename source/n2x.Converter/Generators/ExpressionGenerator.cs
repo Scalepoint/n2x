@@ -9,9 +9,9 @@ namespace n2x.Converter.Generators
 {
     public class ExpressionGenerator
     {
-        public static ExpressionSyntax GenerateValueExpression(string value)
+        public static ExpressionSyntax GenerateValueExpression(string value, bool quote = true)
         {
-            var valueString = SymbolDisplay.FormatLiteral(value, quote: true);
+            var valueString = SymbolDisplay.FormatLiteral(value, quote);
             return SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(valueString, value));
         }
 
