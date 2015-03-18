@@ -48,8 +48,6 @@ namespace n2x.Tests.Converters
                         Assert.IsTrue(true);
                         Assert.IsFalse(false);
                         Assert.IsNull(null);
-                        Assert.DoesNotThrow(delegate { var s = 100; },
-                                                        System.Reflection.MethodBase.GetCurrentMethod().Name);
                     }
                 }
             }");
@@ -59,7 +57,7 @@ namespace n2x.Tests.Converters
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            //Xunit.Assert.DoesNotThrow(delegate { var s = 10; });
+
 
             Assert.Equal(code,
                 @"using NUnit.Framework;
@@ -76,12 +74,6 @@ namespace n2x
             Xunit.Assert.True(true);
             Xunit.Assert.False(false);
             Xunit.Assert.Null(null);
-            Xunit.Assert.DoesNotThrow(delegate
-            {
-                var s = 100;
-            }
-
-            );
         }
     }
 }");
@@ -98,7 +90,7 @@ namespace n2x
         public void should_add_simple_xunit_asserts()
         {
             var method = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().First();
-            Assert.Equal(6, method.Body.Statements.Count(p => p.ToString().StartsWith("Xunit.Assert.")));
+            Assert.Equal(5, method.Body.Statements.Count(p => p.ToString().StartsWith("Xunit.Assert.")));
         }
     }
 

@@ -32,7 +32,6 @@ namespace n2x.Converter.Converters.Asserts
             {"True", "True(condition)" },
             {"Fail", "True(false,message)" },
             {"Throws", "Throws" },
-            {"DoesNotThrow", "DoesNotThrow(code)" },
         };
 
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
