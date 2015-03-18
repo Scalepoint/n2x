@@ -48,6 +48,8 @@ namespace n2x.Tests.Converters
                         Assert.IsTrue(true);
                         Assert.IsFalse(false);
                         Assert.IsNull(null);
+                        Assert.DoesNotThrow(delegate { var s = 100; },
+                                                        System.Reflection.MethodBase.GetCurrentMethod().Name);
                     }
                 }
             }");
@@ -57,6 +59,7 @@ namespace n2x.Tests.Converters
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
+            Xunit.Assert.DoesNotThrow(delegate { var s = 10; });
 
             Assert.Equal(code,
                 @"using NUnit.Framework;
@@ -73,6 +76,12 @@ namespace n2x
             Xunit.Assert.True(true);
             Xunit.Assert.False(false);
             Xunit.Assert.Null(null);
+            Xunit.Assert.DoesNotThrow(delegate
+            {
+                var s = 100;
+            }
+
+            );
         }
     }
 }");
@@ -89,7 +98,7 @@ namespace n2x
         public void should_add_simple_xunit_asserts()
         {
             var method = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().First();
-            Assert.Equal(5, method.Body.Statements.Count(p => p.ToString().StartsWith("Xunit.Assert.")));
+            Assert.Equal(6, method.Body.Statements.Count(p => p.ToString().StartsWith("Xunit.Assert.")));
         }
     }
 
@@ -144,7 +153,7 @@ namespace n2x
         }
     }
 
-    public class when_converting_simple_asserts_with_constan_values : behaves_like_converting_Asserts
+    public class when_converting_simple_asserts_with_constant_values : behaves_like_converting_Asserts
     {
         public override void Context()
         {
@@ -183,6 +192,56 @@ namespace n2x
         }
     }
 }");
+        }
+    }
+
+    public class when_converting_simple_asserts_with_generic_arguments : behaves_like_converting_Asserts
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+                @"using NUnit.Framework;
+
+            namespace n2x
+            {
+                public class Test
+                {
+                    public void should_do_the_magic()
+                    {
+                        Assert.Throws<System.Exception>(() =>
+                        {
+                            Assert.False(true);
+                        });
+                    }
+                }
+            }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+
+            Assert.Equal(
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        public void should_do_the_magic()
+        {
+            Xunit.Assert.Throws<System.Exception>(() =>
+            {
+                Assert.False(true);
+            }
+
+            );
+        }
+    }
+}", code);
         }
     }
 

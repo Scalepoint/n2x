@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Generators;
 using n2x.Converter.Utils;
-using NUnit.Framework;
 
 namespace n2x.Converter.Converters.Asserts
 {
@@ -32,6 +31,8 @@ namespace n2x.Converter.Converters.Asserts
             {"IsTrue", "True(condition)" },
             {"True", "True(condition)" },
             {"Fail", "True(false,message)" },
+            {"Throws", "Throws" },
+            {"DoesNotThrow", "DoesNotThrow(code)" },
         };
 
         public SyntaxNode Convert(SyntaxNode root, SemanticModel semanticModel)
@@ -42,13 +43,15 @@ namespace n2x.Converter.Converters.Asserts
 
             foreach (var assertInvocation in assertInvocations)
             {
-                var symbol = ModelExtensions.GetSymbolInfo(semanticModel, assertInvocation).Symbol;
+                var symbol = (IMethodSymbol)ModelExtensions.GetSymbolInfo(semanticModel, assertInvocation).Symbol;
                 string newMethodPattern;
                 if (_assertMethodTransformations.TryGetValue(symbol.Name, out newMethodPattern))
                 {
                     var newMethodName = GetMethodNameFromPattern(newMethodPattern);
                     var methodArguments = GetMethodArgsByPattern(newMethodPattern, assertInvocation, semanticModel);
-                    var newExpression = ExpressionGenerator.CreateAssertInvocation(newMethodName, methodArguments);
+                    var typeArguments = symbol.TypeArguments.Select(a => SyntaxFactory.ParseTypeName(a.ToDisplayString()));
+
+                    var newExpression = ExpressionGenerator.CreateAssertInvocation(newMethodName, typeArguments, methodArguments);
                     dict.Add(assertInvocation, newExpression);
                 }
             }

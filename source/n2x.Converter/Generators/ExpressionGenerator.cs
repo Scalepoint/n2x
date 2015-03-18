@@ -35,10 +35,25 @@ namespace n2x.Converter.Generators
             return SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(expressionString));
         }
 
-        public static InvocationExpressionSyntax CreateAssertInvocation(string methodName, ArgumentListSyntax arguments)
+        public static InvocationExpressionSyntax CreateAssertInvocation(string methodName, IEnumerable<TypeSyntax> typeArguments, ArgumentListSyntax arguments)
         {
-            var expressionString = string.Format("Xunit.Assert.{0}", methodName);
-            return SyntaxFactory.InvocationExpression(SyntaxFactory.ParseExpression(expressionString), arguments);
+            SimpleNameSyntax operatorToken = SyntaxFactory.IdentifierName(methodName);
+            if (typeArguments.Any())
+            {
+                operatorToken = SyntaxFactory.GenericName(methodName)
+                    .WithTypeArgumentList(
+                        SyntaxFactory.TypeArgumentList(
+                            SyntaxFactory.SeparatedList(typeArguments)));
+            }
+
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    SyntaxFactory.QualifiedName(
+                        SyntaxFactory.ParseName("Xunit"),
+                        SyntaxFactory.IdentifierName("Assert")),
+                    operatorToken),
+                arguments);
         }
 
         public static UsingDirectiveSyntax GenerateXunitUsing()
