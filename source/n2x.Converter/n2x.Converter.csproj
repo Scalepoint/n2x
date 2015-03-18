@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Asserts\AssertionExceptionReplacer.cs" />
     <Compile Include="Converters\Asserts\SimpleAssertsReplacer.cs" />
     <Compile Include="Converters\Asserts\AssertsConverterProvider.cs" />
     <Compile Include="Converters\Asserts\ThatAssertConverter.cs" />

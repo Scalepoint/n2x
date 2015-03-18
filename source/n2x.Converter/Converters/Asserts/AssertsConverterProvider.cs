@@ -9,6 +9,7 @@ namespace n2x.Converter.Converters.Asserts
         {
             yield return new SimpleAssertsReplacer();
             yield return new ThatAssertConverter();
+            yield return new AssertionExceptionReplacer();
         }
     }
 }

@@ -73,5 +73,11 @@ namespace n2x.Converter.Utils
             var symbol = semanticModel.GetSymbolInfo(invocation).Symbol;
             return symbol != null && symbol.IsNunitAssert();
         }
+
+        public static bool IsAssertionException(this TypeSyntax @type, SemanticModel semanticModel)
+        {
+            var symbol = semanticModel.GetSymbolInfo(@type).Symbol;
+            return symbol.IsOfType<AssertionException>();
+        }
     }
 }

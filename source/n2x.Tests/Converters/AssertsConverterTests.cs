@@ -245,6 +245,62 @@ namespace n2x
         }
     }
 
+    public class when_converting_AssertionException : behaves_like_converting_Asserts
+    {
+        public override void Context()
+        {
+            base.Context();
+
+            Code = new TestCode(
+                @"using NUnit.Framework;
+
+            namespace n2x
+            {
+                public class Test
+                {
+                    public void should_do_the_magic()
+                    {
+                        try
+                        {
+                            Assert.True(false);
+                        }
+                        catch (AssertionException)
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }");
+        }
+
+        [Fact]
+        public void should_match_etalon_document()
+        {
+            var code = Compilation.ToFullString();
+
+            Assert.Equal(
+                @"using NUnit.Framework;
+
+namespace n2x
+{
+    public class Test
+    {
+        public void should_do_the_magic()
+        {
+            try
+            {
+                Xunit.Assert.True(false);
+            }
+            catch (Xunit.Sdk.AssertException)
+            {
+                throw;
+            }
+        }
+    }
+}", code);
+        }
+    }
+
     public class when_converting_That_asserts : behaves_like_converting_Asserts
     {
         public override void Context()

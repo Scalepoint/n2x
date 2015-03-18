@@ -6,7 +6,12 @@ namespace n2x.Converter.Utils
     {
         public static bool IsOfType<T>(this ISymbol symbol)
         {
-            return symbol.ContainingType.ToDisplayString() == typeof(T).FullName;
+            if (symbol.ContainingType != null)
+            {
+                return symbol.ContainingType.ToDisplayString() == typeof(T).FullName;
+            }
+
+            return symbol.ToDisplayString() == typeof(T).FullName;
         }
     }
 }
