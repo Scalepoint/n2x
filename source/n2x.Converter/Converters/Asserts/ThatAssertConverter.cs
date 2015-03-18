@@ -55,7 +55,8 @@ namespace n2x.Converter.Converters.Asserts
                         continue;
                     }
 
-                    var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
+                    var symbolInfo = semanticModel.GetSymbolInfo(invocationExpressionSyntax);
+                    var symbol = symbolInfo.Symbol ?? (symbolInfo.CandidateSymbols.Any() ? symbolInfo.CandidateSymbols[0] : null);
 
                     if (symbol == null)
                     {
