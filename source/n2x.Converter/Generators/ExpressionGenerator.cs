@@ -18,7 +18,12 @@ namespace n2x.Converter.Generators
         public static AttributeSyntax GenerateAttribute<T>(params AttributeArgumentSyntax[] args)
             where T : Attribute
         {
-            var arguments = new List<AttributeArgumentSyntax>(args);
+            var arguments = new List<AttributeArgumentSyntax>();
+            if (args != null)
+            {
+                arguments.AddRange(args);
+            }
+
             var argumentList = SyntaxFactory.AttributeArgumentList(SyntaxFactory.SeparatedList(arguments));
 
             var attributeType = SyntaxFactory.ParseName(typeof (T).FullName);
