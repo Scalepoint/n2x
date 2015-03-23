@@ -83,12 +83,9 @@ namespace n2x.Converter.Utils
 
         public static bool HasDisposableBaseClass(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            var baseClasses = @class.BaseList.Types.OfType<IdentifierNameSyntax>()
-                .Where(p => !p.Identifier.Text.StartsWith("I"));
-
-            foreach (var baseClass in baseClasses)
+            foreach (var baseClass in @class.BaseList.Types)
             {
-                var baseClassType = semanticModel.GetTypeInfo(baseClass).Type;
+                var baseClassType = semanticModel.GetTypeInfo(baseClass.Type).Type;
                 var hasInterface = baseClassType.Interfaces.Any(p => p.Name == "IDisposable");
 
                 return baseClassType.TypeKind == TypeKind.Class && !baseClassType.IsAbstract && hasInterface;
@@ -110,7 +107,11 @@ namespace n2x.Converter.Utils
         public static bool IsDisposable(this ClassDeclarationSyntax @class)
         {
             return @class.BaseList != null
-                && @class.BaseList.Types.OfType<IdentifierNameSyntax>().Any(p => p.Identifier.Text == "IDisposable");
+                   && @class.BaseList.Types.Any(p =>
+                       (p.Type.IsKind(SyntaxKind.QualifiedName) && ((QualifiedNameSyntax) p.Type).Right.Identifier.Text == "IDisposable")
+                       ||
+                       (p.Type.IsKind(SyntaxKind.IdentifierName) && ((IdentifierNameSyntax) p.Type).Identifier.Text == "IDisposable")
+                       );
         }
 
         public static IEnumerable<ClassDeclarationSyntax> WithSetUpMethods(this IEnumerable<ClassDeclarationSyntax> @this, SemanticModel semanticModel)
@@ -152,6 +153,11 @@ namespace n2x.Converter.Utils
             }
 
             return root;
+        }
+
+        public static bool IsPublic(this ClassDeclarationSyntax @class)
+        {
+            return @class.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword));
         }
     }
 }

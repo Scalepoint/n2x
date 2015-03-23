@@ -18,7 +18,7 @@ namespace n2x.Converter.Converters.Asserts
 
             foreach (var catchFilter in catchFilters)
             {
-                var xunitAssertExceptionType = SyntaxFactory.ParseTypeName("Xunit.Sdk.AssertException");
+                var xunitAssertExceptionType = SyntaxFactory.ParseTypeName("Xunit.Sdk.XunitException");
                 var newDeclaration = SyntaxFactory.CatchDeclaration(catchFilter.OpenParenToken, 
                     xunitAssertExceptionType, 
                     catchFilter.Identifier, 

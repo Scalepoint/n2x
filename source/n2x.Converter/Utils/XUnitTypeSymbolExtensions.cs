@@ -25,12 +25,12 @@ namespace n2x.Converter.Utils
         public static IEnumerable<ClassDeclarationSyntax> GetIClassFixtureClasses(this SyntaxNode root, SemanticModel semanticModel)
         {
             return root.Classes()
-                .Where(c => c.BaseList?.Types.Any(t => semanticModel.GetTypeInfo(t).Type.IsIClassFixtureInterface()) ?? false);
+                .Where(c => c.BaseList?.Types.Any(t => semanticModel.GetTypeInfo(t.Type).Type.IsIClassFixtureInterface()) ?? false);
         }
 
         public static string GetIClassFixtureTypeArgumentName(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
-            return @class.BaseList.Types.Select(t => (INamedTypeSymbol) semanticModel.GetTypeInfo(t).Type)
+            return @class.BaseList.Types.Select(t => (INamedTypeSymbol) semanticModel.GetTypeInfo(t.Type).Type)
                 .Single(m => m.IsIClassFixtureInterface())
                 .TypeArguments
                 .Single().Name;

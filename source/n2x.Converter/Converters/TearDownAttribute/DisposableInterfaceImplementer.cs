@@ -20,7 +20,7 @@ namespace n2x.Converter.Converters.TearDownAttribute
                 {
                     if (!@class.IsDisposable())
                     {
-                        var modifiedClass = @class.AddBaseListTypes(SyntaxFactory.ParseTypeName("System.IDisposable"));
+                        var modifiedClass = @class.AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("System.IDisposable")));
 
                         dict.Add(@class, modifiedClass);
                     }

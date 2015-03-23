@@ -27,7 +27,7 @@ namespace n2x.Converter.Converters.TestFixture
                     };
 
                     var newClass = @class
-                        .AddBaseListTypes(baseType)
+                        .AddBaseListTypes(SyntaxFactory.SimpleBaseType(baseType))
                         .AddMembers(newMembers)
                         .NormalizeWhitespace();
 
@@ -76,7 +76,7 @@ namespace n2x.Converter.Converters.TestFixture
                         SyntaxFactory.Block(
                             SyntaxFactory.SingletonList<StatementSyntax>(
                                 SyntaxFactory.ExpressionStatement(
-                                    SyntaxFactory.BinaryExpression(SyntaxKind.SimpleAssignmentExpression,
+                                    SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
                                         SyntaxFactory.IdentifierName(@"TestData"), SyntaxFactory.IdentifierName(@"data"))))));
         }
     }

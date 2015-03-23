@@ -5,6 +5,7 @@ using n2x.Converter.Utils;
 using n2x.Tests.Utils;
 using System;
 using System.Linq;
+using Microsoft.CodeAnalysis.CSharp;
 using Xunit;
 
 namespace n2x.Tests.Converters
@@ -81,7 +82,8 @@ namespace n2x
         [Fact]
         public void should_implement_IDisposable_interface()
         {
-            var isImplementedIDisposable = TestClassSyntax.BaseList.Types.OfType<QualifiedNameSyntax>()
+            var isImplementedIDisposable = TestClassSyntax.BaseList.Types
+                .Select(p => (QualifiedNameSyntax)p.Type)
                 .Any(p => p.Right.Identifier.Text == "IDisposable");
 
             Assert.True(isImplementedIDisposable);
@@ -139,7 +141,13 @@ namespace n2x
         [Fact]
         public void should_not_implement_IDisposable_twice()
         {
-            var interfaceCount = TestClassSyntax.BaseList.Types.OfType<IdentifierNameSyntax>().Count(p => p.Identifier.Text == "IDisposable");
+            var interfaceCount = TestClassSyntax.BaseList.Types
+                .Select(p => p.Type)
+                .Count(p =>
+                        (p.IsKind(SyntaxKind.QualifiedName) && ((QualifiedNameSyntax) p).Right.Identifier.Text == "IDisposable")
+                        || (p.IsKind(SyntaxKind.IdentifierName) && ((IdentifierNameSyntax) p).Identifier.Text == "IDisposable")
+                );
+
             var memberCount = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().Count(m => m.Identifier.Text == "Dispose");
 
             Assert.Equal(1, interfaceCount);

@@ -22,7 +22,7 @@ namespace n2x.Converter.Converters.TestFixture
                 {
                     var disposeMethod = GetDisposeMethodDeclaration(fixtureTearDownMethod);
                     var modifiedTestDataClass = testDataClass
-                        .AddBaseListTypes(SyntaxFactory.ParseTypeName("System.IDisposable"))
+                        .AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("System.IDisposable")))
                         .AddMembers(disposeMethod)
                         .NormalizeWhitespace();
 

@@ -88,7 +88,7 @@ namespace n2x
         public void should_add_IClassFixture_implementation_to_test_class()
         {
             Assert.NotNull(TestClassSyntax.BaseList);
-            var hasIClassFixtureInterface = TestClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.IsIClassFixtureInterfaceOf("n2x.TestData"));
+            var hasIClassFixtureInterface = TestClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t.Type).Type.IsIClassFixtureInterfaceOf("n2x.TestData"));
 
             Assert.True(hasIClassFixtureInterface);
         }
@@ -141,7 +141,7 @@ namespace n2x
         public void should_add_IDisposable_implementation_to_test_class()
         {
             Assert.NotNull(TestDataClassSyntax.BaseList);
-            var hasIDisposableInterface = TestDataClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t).Type.Name == "IDisposable");
+            var hasIDisposableInterface = TestDataClassSyntax.BaseList.Types.Any(t => SemanticModel.GetTypeInfo(t.Type).Type.Name == "IDisposable");
 
             Assert.True(hasIDisposableInterface);
 

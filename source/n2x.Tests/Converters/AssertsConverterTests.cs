@@ -283,7 +283,7 @@ namespace n2x
             {
                 Xunit.Assert.True(false);
             }
-            catch (Xunit.Sdk.AssertException)
+            catch (Xunit.Sdk.XunitException)
             {
                 throw;
             }

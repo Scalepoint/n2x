@@ -47,14 +47,15 @@ namespace n2x.Tests.Utils
                 throw new Exception("Could not obtain NUnit assembly reference path");
             }
 
-            var xUnitAssemblyPath = Path.GetDirectoryName(typeof (FactAttribute).Assembly.Location);
-            if (xUnitAssemblyPath == null)
+            var xunitAssemblyPath = Path.GetDirectoryName(typeof (FactAttribute).Assembly.Location);
+            if (xunitAssemblyPath == null)
             {
                 throw new Exception("Could not obtain Xunit assembly reference path");
             }
 
-            var xUnitExtensionsAssemblyPath = Path.GetDirectoryName(typeof(Xunit.TheoryAttribute).Assembly.Location);
-            if (xUnitExtensionsAssemblyPath == null)
+            
+            var xunitAbstractionsAssemblyPath = Path.GetDirectoryName(typeof(Xunit.Abstractions.ITestCase).Assembly.Location);
+            if (xunitAbstractionsAssemblyPath == null)
             {
                 throw new Exception("Could not obtain Xunit extensions assembly reference path");
             }
@@ -69,7 +70,7 @@ namespace n2x.Tests.Utils
 
             //SemanticModel = Compilation.GetSemanticModel(SyntaxTree);
 
-            var ws = new CustomWorkspace();
+            var ws = new AdhocWorkspace();
 
             var projectInfo = ProjectInfo.Create(
                     ProjectId.CreateNewId(),
@@ -83,13 +84,14 @@ namespace n2x.Tests.Utils
 
             var solution = ws.AddSolution(solutionInfo);
 
+            
             Document = solution.GetProject(projectInfo.Id)
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "mscorlib.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(systemAsseemblyPath, "System.Core.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(nUnitAssemblyPath, "nunit.framework.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitAssemblyPath, "xunit.core.dll")))
-                .AddMetadataReference(new MetadataFileReference(Path.Combine(xUnitExtensionsAssemblyPath, "xunit.extensions.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(systemAsseemblyPath, "mscorlib.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(systemAsseemblyPath, "System.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(systemAsseemblyPath, "System.Core.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(nUnitAssemblyPath, "nunit.framework.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(xunitAssemblyPath, "xunit.core.dll")))
+                .AddMetadataReference(MetadataReference.CreateFromFile(Path.Combine(xunitAbstractionsAssemblyPath, "xunit.abstractions.dll")))
 
                 .AddDocument("code", SourceText.From(text));
         }
