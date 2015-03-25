@@ -32,6 +32,11 @@ namespace n2x.Converter.Generators
             return attribute.NormalizeWhitespace();
         }
 
+        public static TypeSyntax ParseType<T>()
+        {
+            return SyntaxFactory.ParseTypeName(typeof (T).FullName);
+        }
+
         public static ExpressionStatementSyntax CreateAssertExpression(string methodName, ArgumentSyntax firstArgument, ArgumentSyntax secondArgument = null)
         {
             var expressionString = secondArgument == null
@@ -66,5 +71,21 @@ namespace n2x.Converter.Generators
             return SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("Xunit"));
         }
 
+        public static ConstructorDeclarationSyntax GeneratePublicConstructor(string name, params ParameterSyntax[] parameters)
+        {
+            var modifierList = SyntaxFactory.TokenList(new List<SyntaxToken>
+            {
+                SyntaxFactory.Token(SyntaxKind.PublicKeyword)
+            });
+
+            var parameterList = SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameters));
+            var ctor = SyntaxFactory
+                .ConstructorDeclaration(SyntaxFactory.Identifier(name))
+                .WithModifiers(modifierList)
+                .WithParameterList(parameterList)
+                .WithBody(SyntaxFactory.Block(new List<StatementSyntax>()));
+
+            return ctor;
+        }
     }
 }

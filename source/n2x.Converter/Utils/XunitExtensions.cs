@@ -8,6 +8,12 @@ namespace n2x.Converter.Utils
 {
     public static class XunitExtensions
     {
+        public static bool IsXUnitTestClass(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            return @class.HasXunitFactMethod(semanticModel)
+                   || @class.HasXunitTheoryMethod(semanticModel);
+        }
+
         public static bool HasXunitFactMethod(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
             return @class.GetXunitFactMethod(semanticModel).Any();

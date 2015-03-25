@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="Converters\CategoryAttributeConverterProviderTests.cs" />
     <Compile Include="Converters\MoveToPublicConverterTests.cs" />
+    <Compile Include="Converters\TestOutputHelperInjectorTests.cs" />
     <Compile Include="Converters\UsingConverterTests.cs" />
     <Compile Include="Converters\AssertsConverterTests.cs" />
     <Compile Include="Converters\ConverterSpecification.cs" />

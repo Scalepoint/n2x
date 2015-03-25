@@ -3,12 +3,14 @@ using n2x.Converter.Converters;
 using n2x.Converter.Converters.Asserts;
 using n2x.Converter.Converters.CategoryAttribute;
 using n2x.Converter.Converters.ExplicitAttribute;
+using n2x.Converter.Converters.MoveToPublic;
 using n2x.Converter.Converters.SetUp;
 using n2x.Converter.Converters.TestFixture;
 using n2x.Converter.Converters.TestFixtureAttribute;
 using n2x.Converter.Converters.TearDownAttribute;
 using n2x.Converter.Converters.TestAttribute;
 using n2x.Converter.Converters.TestCaseAttribute;
+using n2x.Converter.Converters.TestOutputHelperInjector;
 using n2x.Converter.Converters.Using;
 
 namespace n2x.Converter
@@ -28,6 +30,8 @@ namespace n2x.Converter
                 new DocumentConverter(new ExplicitAttributeConverterProvider()),
                 new DocumentConverter(new CategoryAttributeConverterProvider()),
                 new DocumentConverter(new AssertsConverterProvider()),
+                new DocumentConverter(new MoveToPublicProvider()),
+                new DocumentConverter(new TestOutputHelperInjectorProvider()),
                 new DocumentConverter(new UsingConverterProvider()),
             };
         }

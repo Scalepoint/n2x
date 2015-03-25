@@ -13,8 +13,7 @@ namespace n2x.Converter.Converters.MoveToPublic
             var dict = new Dictionary<SyntaxNode, SyntaxNode>();
 
             var nonPublicTestClasses = root.Classes()
-                .Where(c => c.HasXunitFactMethod(semanticModel)
-                            || c.HasXunitTheoryMethod(semanticModel))
+                .Where(c => c.IsXUnitTestClass(semanticModel))
                 .Where(c => !c.IsPublic());
 
             foreach (var @class in nonPublicTestClasses)
@@ -28,11 +27,11 @@ namespace n2x.Converter.Converters.MoveToPublic
                 var newModifiers = SyntaxFactory.TokenList(publicModifier)
                     .AddRange(cleanedOriginalModifiers);
 
-                var previousWhiteSpacesToken = @class.GetLeadingTrivia(); //preserve original leading trivia
+                var originalLeadingTrivia = @class.GetLeadingTrivia(); //preserve original leading trivia
                 var newClass = @class
                     .WithLeadingTrivia()
                     .WithModifiers(newModifiers)
-                    .WithLeadingTrivia(previousWhiteSpacesToken);
+                    .WithLeadingTrivia(originalLeadingTrivia);
 
                 dict.Add(@class, newClass);
             }

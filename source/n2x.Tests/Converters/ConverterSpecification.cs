@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using n2x.Converter.Converters;
@@ -29,6 +30,7 @@ namespace n2x.Tests.Converters
             Result = Converter.Convert(Code.Document);
 
             Compilation = (CompilationUnitSyntax) Result.GetSyntaxRootAsync().Result;
+            Console.WriteLine(Compilation.ToFullString());
         }
 
         [Fact]

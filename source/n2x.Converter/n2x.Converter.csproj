@@ -143,6 +143,8 @@
     <Compile Include="Converters\IDocumentConverter.cs" />
     <Compile Include="Converters\MoveToPublic\MoveToPublicProvider.cs" />
     <Compile Include="Converters\MoveToPublic\ToPublicMover.cs" />
+    <Compile Include="Converters\TestOutputHelperInjector\TestClassOutputHelperInjector.cs" />
+    <Compile Include="Converters\TestOutputHelperInjector\TestOutputHelperInjectorProvider.cs" />
     <Compile Include="Converters\Using\UsingConverterProvider.cs" />
     <Compile Include="Converters\Using\UsingRemover.cs" />
     <Compile Include="Converters\Using\UsingReplacer.cs" />

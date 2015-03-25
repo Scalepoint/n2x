@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -18,6 +19,11 @@ namespace n2x.Converter.Utils
         public static IEnumerable<MethodDeclarationSyntax> Methods(this ClassDeclarationSyntax @class)
         {
             return @class.Members.OfType<MethodDeclarationSyntax>();
+        }
+
+        public static IEnumerable<ConstructorDeclarationSyntax> Ctors(this ClassDeclarationSyntax @class)
+        {
+            return @class.DescendantNodes().OfType<ConstructorDeclarationSyntax>();
         }
 
         public static IEnumerable<UsingDirectiveSyntax> Usings(this SyntaxNode root)
@@ -158,6 +164,25 @@ namespace n2x.Converter.Utils
         public static bool IsPublic(this ClassDeclarationSyntax @class)
         {
             return @class.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword));
+        }
+
+        public static string GetAssemblyName(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
+        {
+            var symbolInfo = semanticModel.GetDeclaredSymbol(@class);
+            return symbolInfo.ContainingAssembly?.Identity.ToString();
+        }
+
+        public static string GetAssemblyName(this TypeSyntax node, SemanticModel semanticModel)
+        {
+            var symbolInfo = semanticModel.GetSymbolInfo(node);
+            var symbol = symbolInfo.Symbol;
+            if (symbol == null && symbolInfo.CandidateSymbols.Any())
+            {
+                symbol = symbolInfo.CandidateSymbols.First();
+            }
+
+            Debug.Assert(symbol != null);
+            return symbol.ContainingAssembly.Identity.ToString();
         }
     }
 }
