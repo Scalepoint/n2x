@@ -139,13 +139,12 @@ namespace n2x.Converter.Utils
                     .Any(a => a.IsOfType<T>(semanticModel)));
         }
 
-        public static SyntaxNode ReplaceNodes(this SyntaxNode root, Dictionary<SyntaxNode, SyntaxNode> dict)
+        public static SyntaxNode ReplaceNodes(this SyntaxNode root, Dictionary<SyntaxNode, SyntaxNode> dict, bool normalize = true)
         {
             if (dict.Any())
             {
-                return root
-                    .ReplaceNodes(dict.Keys, (n1, n2) => dict[n1])
-                    .NormalizeWhitespace();
+                var newRoot = root.ReplaceNodes(dict.Keys, (n1, n2) => dict[n1]);
+                return normalize ? newRoot.NormalizeWhitespace() : newRoot;
             }
 
             return root;

@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\CategoryAttributeConverterProviderTests.cs" />
+    <Compile Include="Converters\ECBAutotests\LoggerInjectorTests.cs" />
     <Compile Include="Converters\MoveToPublicConverterTests.cs" />
     <Compile Include="Converters\TestOutputHelperInjectorTests.cs" />
     <Compile Include="Converters\UsingConverterTests.cs" />
