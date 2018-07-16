@@ -10,12 +10,16 @@ namespace n2x.Converter.Utils
     {
         public static IEnumerable<MethodDeclarationSyntax> GetTestFixtureSetUpMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
+#pragma warning disable 618
             return @class.GetClassMethods<TestFixtureSetUpAttribute>(semanticModel);
+#pragma warning restore 618
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTestFixtureTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)
         {
+#pragma warning disable 618
             return @class.GetClassMethods<TestFixtureTearDownAttribute>(semanticModel);
+#pragma warning restore 618
         }
 
         public static IEnumerable<MethodDeclarationSyntax> GetTearDownMethods(this ClassDeclarationSyntax @class, SemanticModel semanticModel)

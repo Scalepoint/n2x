@@ -49,7 +49,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test
@@ -64,7 +64,7 @@ namespace n2x.Tests.Converters
         {
         }
     }
-}");
+}", code);
         }
     }
 
@@ -101,7 +101,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test
@@ -120,7 +120,7 @@ namespace n2x.Tests.Converters
             var i = 10;
         }
     }
-}");
+}", code);
         }
     }
 
@@ -154,7 +154,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test : BaseTest
@@ -165,7 +165,7 @@ namespace n2x.Tests.Converters
             var i = 10;
         }
 
-        public Test(Xunit.Abstractions.ITestOutputHelper outputHelper): base (outputHelper)
+        public Test(Xunit.Abstractions.ITestOutputHelper outputHelper): base(outputHelper)
         {
         }
     }
@@ -173,7 +173,7 @@ namespace n2x.Tests.Converters
     public class BaseTest
     {
     }
-}");
+}", code);
         }
     }
 }

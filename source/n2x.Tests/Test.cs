@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-                namespace n2x
+namespace n2x
 {
     public struct TestCategoryProvider
     {

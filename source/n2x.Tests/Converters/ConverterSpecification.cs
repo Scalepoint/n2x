@@ -34,7 +34,7 @@ namespace n2x.Tests.Converters
         }
 
         [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
+        public virtual void should_not_produce_compilation_errors_and_warnings()
         {
             var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics()
                 .Any(d => d.Severity == DiagnosticSeverity.Error

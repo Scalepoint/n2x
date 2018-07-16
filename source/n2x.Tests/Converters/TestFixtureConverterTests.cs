@@ -73,7 +73,9 @@ namespace n2x
             var hasTestFixtureSetupMethods = methods.Any(method => method
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
+#pragma warning disable 618
                 .Any(a => a.IsOfType<TestFixtureSetUpAttribute>(SemanticModel)));
+#pragma warning restore 618
 
             Assert.False(hasTestFixtureSetupMethods);
         }
@@ -100,8 +102,8 @@ namespace n2x
                 .SingleOrDefault(m => m.Identifier.Text == "SetFixture");
 
             Assert.NotNull(setFixtureMethod);
-            Assert.Equal(setFixtureMethod.ParameterList.Parameters.Count, 1);
-            Assert.Equal(setFixtureMethod.ParameterList.Parameters.First().ToString(), "TestData data");
+            Assert.Single(setFixtureMethod.ParameterList.Parameters);
+            Assert.Equal("TestData data", setFixtureMethod.ParameterList.Parameters.First().ToString());
         }
 
         [Fact]
@@ -119,10 +121,10 @@ namespace n2x
             var setFixtureMethod = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>()
                 .Single(m => m.Identifier.Text == "SetFixture");
 
-            Assert.Equal(setFixtureMethod.Body.ToString(),
-                @"{
+            Assert.Equal(                @"{
             TestData = data;
-        }");
+        }",
+setFixtureMethod.Body.ToString());
         }
 
         [Fact]
@@ -131,10 +133,10 @@ namespace n2x
             var ctor = TestDataClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault();
 
             Assert.NotNull(ctor);
-            Assert.Equal(ctor.Body.ToString(),
-                @"{
+            Assert.Equal(                @"{
             var i = 10;
-        }");
+        }",
+ctor.Body.ToString());
         }
 
         [Fact]
@@ -153,10 +155,10 @@ namespace n2x
             var dispose = TestDataClassSyntax.Members.OfType<MethodDeclarationSyntax>().SingleOrDefault(m => m.Identifier.Text == "Dispose");
             Assert.NotNull(dispose);
 
-            Assert.Equal(dispose.Body.ToString(), 
+            Assert.Equal(
                 @"{
             var i = 0;
-        }");
+        }", dispose.Body.ToString());
         }
 
         [Fact]
@@ -166,7 +168,9 @@ namespace n2x
             var hasTestFixtureTearDownMethods = methods.Any(method => method
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
+#pragma warning disable 618
                 .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(SemanticModel)));
+#pragma warning restore 618
 
             Assert.False(hasTestFixtureTearDownMethods);
         }
@@ -179,7 +183,9 @@ namespace n2x
             var hasTestFixtureSetupAttribute = ctor
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
+#pragma warning disable 618
                 .Any(a => a.IsOfType<TestFixtureSetUpAttribute>(SemanticModel));
+#pragma warning restore 618
 
             Assert.False(hasTestFixtureSetupAttribute);
         }
@@ -192,7 +198,9 @@ namespace n2x
             var hasTestFixtureSetupAttribute = dispose
                 .AttributeLists
                 .SelectMany(a => a.Attributes)
+#pragma warning disable 618
                 .Any(a => a.IsOfType<TestFixtureTearDownAttribute>(SemanticModel));
+#pragma warning restore 618
 
             Assert.False(hasTestFixtureSetupAttribute);
         }
@@ -200,8 +208,7 @@ namespace n2x
         [Fact]
         public void should_match_etalon_document()
         {
-            Assert.Equal(Compilation.ToFullString(),
-@"using NUnit.Framework;
+            Assert.Equal(@"using NUnit.Framework;
 
 namespace n2x
 {
@@ -236,11 +243,12 @@ namespace n2x
             TestData = data;
         }
     }
-}");
+}",
+Compilation.ToFullString());
         }
 
         [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
+        public override void should_not_produce_compilation_errors_and_warnings()
         {
             var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
 

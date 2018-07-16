@@ -64,10 +64,10 @@ namespace n2x.Tests.Converters
             var ctor = TestClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault();
 
             Assert.NotNull(ctor);
-            Assert.Equal(ctor.Body.ToString(),
+            Assert.Equal(
                 @"{
             var i = 10;
-        }");
+        }", ctor.Body.ToString());
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace n2x.Tests.Converters
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -99,7 +99,7 @@ namespace n2x
             var i = 10;
         }
     }
-}");
+}", code);
         }
     }
 
@@ -141,18 +141,18 @@ namespace n2x
             var ctor = TestClassSyntax.Members.OfType<ConstructorDeclarationSyntax>().SingleOrDefault();
 
             Assert.NotNull(ctor);
-            Assert.Equal(ctor.Body.ToString(),
+            Assert.Equal(
                 @"{
             var n = 500;
             var i = 10;
-        }");
+        }", ctor.Body.ToString());
         }
 
         [Fact]
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -170,7 +170,7 @@ namespace n2x
         {
         }
     }
-}");
+}", code);
         }
     }
 }

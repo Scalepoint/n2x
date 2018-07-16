@@ -59,8 +59,7 @@ namespace n2x.Tests.Converters
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            Assert.Equal(code,
-                @"using NUnit.Framework;
+            Assert.Equal(                @"using NUnit.Framework;
 
 namespace n2x
 {
@@ -76,7 +75,8 @@ namespace n2x
             var i = 0;
         }
     }
-}");
+}",
+code);
         }
 
         [Fact]
