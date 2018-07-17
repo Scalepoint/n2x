@@ -81,7 +81,7 @@ namespace n2x.Tests.Converters
             var traitAttributeCount = TestClassSyntax.AttributeLists.SelectMany(a => a.Attributes)
                 .Count(a => a.IsOfType<Xunit.TraitAttribute>(SemanticModel));
 
-            Assert.Equal(traitAttributeCount, 2);
+            Assert.Equal(2, traitAttributeCount);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -100,7 +100,7 @@ namespace n2x
     public class Test
     {
     }
-}");
+}", code);
         }
     }
 }

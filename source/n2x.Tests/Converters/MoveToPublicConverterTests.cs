@@ -54,7 +54,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test
@@ -65,7 +65,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
     }
 
@@ -95,7 +95,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test
@@ -106,7 +106,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
 
     }
@@ -137,7 +137,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public class Test
@@ -148,7 +148,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
 
     }
@@ -179,7 +179,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     public sealed class Test
@@ -190,7 +190,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
 
     }
@@ -223,7 +223,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
             Console.WriteLine("code = {0}", code);
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     //http://jira.scalepoint.com/browse/ECB-4446
@@ -236,7 +236,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
     }
 
@@ -269,7 +269,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
             Console.WriteLine("code = {0}", code);
-            Assert.Equal(code,
+            Assert.Equal(
                 @"namespace n2x
 {
     //http://jira.scalepoint.com/browse/ECB-3749
@@ -282,7 +282,7 @@ namespace n2x.Tests.Converters
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
     }
 }

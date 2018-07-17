@@ -66,7 +66,7 @@ namespace n2x
     {
         //TODO: move to base ConvterTest class
         [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
+        public override void should_not_produce_compilation_errors_and_warnings()
         {
             var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
 
@@ -87,8 +87,7 @@ namespace n2x
         [Fact]
         public void should_match_etalon_document()
         {
-            Assert.Equal(Compilation.ToFullString(),
-@"using NUnit.Framework;
+            Assert.Equal(@"using NUnit.Framework;
 
 namespace n2x
 {
@@ -107,7 +106,8 @@ namespace n2x
         {
         }
     }
-}");
+}",
+Compilation.ToFullString());
         }
     }
 
@@ -136,7 +136,7 @@ namespace n2x
 
         //TODO: move to base ConvterTest class
         [Fact]
-        public void should_not_produce_compilation_errors_and_warnings()
+        public override void should_not_produce_compilation_errors_and_warnings()
         {
             var hasCompilationErrorsOrWarnings = Compilation.GetDiagnostics().Any(d => d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning);
 
@@ -173,7 +173,7 @@ namespace n2x
         [Fact]
         public void should_match_etalon_document()
         {
-            Assert.Equal(Compilation.ToFullString(),
+            Assert.Equal(
 @"using NUnit.Framework;
 
 namespace n2x
@@ -186,7 +186,7 @@ namespace n2x
         {
         }
     }
-}");
+}", Compilation.ToFullString());
         }
     }
 }

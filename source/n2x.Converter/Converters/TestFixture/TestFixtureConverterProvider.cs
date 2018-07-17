@@ -11,9 +11,13 @@ namespace n2x.Converter.Converters.TestFixture
             yield return new TestDataClassCreator();
             yield return new UseFixtureImplementor();
             yield return new TestFixtureSetUpMethodMover();
+#pragma warning disable CS0618 // Type or member is obsolete
             yield return new MethodRemover<NUnit.Framework.TestFixtureSetUpAttribute>();
+#pragma warning restore CS0618 // Type or member is obsolete
             yield return new TestFixtureTearDownMethodMover();
+#pragma warning disable CS0618 // Type or member is obsolete
             yield return new MethodRemover<NUnit.Framework.TestFixtureTearDownAttribute>();
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }

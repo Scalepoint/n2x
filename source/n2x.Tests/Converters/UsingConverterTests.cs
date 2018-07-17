@@ -54,8 +54,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
-                @"namespace n2x
+            Assert.Equal(                @"namespace n2x
 {
     public class Test
     {
@@ -64,13 +63,14 @@ namespace n2x.Tests.Converters
             var i = 10;
         }
     }
-}");
+}",
+code);
         }
 
         [Fact]
         public void should_remove_nunit_using()
         {
-            Assert.False(TestClassSyntax.Usings().Any(p => p.Name.ToString() == "NUnit.Framework"));
+            Assert.DoesNotContain(TestClassSyntax.Usings(), p => p.Name.ToString() == "NUnit.Framework");
         }
     }
 }

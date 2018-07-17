@@ -59,7 +59,7 @@ namespace n2x.Tests.Converters
             var code = Compilation.ToFullString();
 
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -76,14 +76,14 @@ namespace n2x
             Xunit.Assert.Null(null);
         }
     }
-}");
+}", code);
         }
 
         [Fact]
         public void should_remove_all_nunit_asserts()
         {
             var method = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().First();
-            Assert.False(method.Body.Statements.Any(p => p.ToString().StartsWith("Assert.")));
+            Assert.DoesNotContain(method.Body.Statements, p => p.ToString().StartsWith("Assert."));
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace n2x
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -132,15 +132,15 @@ namespace n2x
             Xunit.Assert.Equal(""a"", ""b"");
         }
     }
-}");
+}", code);
         }
 
         [Fact]
         public void should_add_only_listed_arguments_to_new_assert_invocation()
         {
-            var assertInvocations = TestClassSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
+            var assertInvocations = TestClassSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().ToList();
 
-            Assert.Equal(assertInvocations.Count(), 1);
+            Assert.Single(assertInvocations);
             Assert.Equal(2, assertInvocations.ElementAt(0).ArgumentList.Arguments.Count);
         }
     }
@@ -171,7 +171,7 @@ namespace n2x
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -183,7 +183,7 @@ namespace n2x
             Xunit.Assert.True(false, ""The following changes were not found:\n"");
         }
     }
-}");
+}", code);
         }
     }
 
@@ -324,7 +324,7 @@ namespace n2x
         public void should_match_etalon_document()
         {
             var code = Compilation.ToFullString();
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -342,14 +342,14 @@ namespace n2x
             Xunit.Assert.True(true);
         }
     }
-}");
+}", code);
         }
 
         [Fact]
         public void should_remove_all_nunit_asserts()
         {
             var method = TestClassSyntax.Members.OfType<MethodDeclarationSyntax>().First();
-            Assert.False(method.Body.Statements.Any(p => p.ToString().StartsWith("Assert.")));
+            Assert.DoesNotContain(method.Body.Statements, p => p.ToString().StartsWith("Assert."));
         }
 
         [Fact]

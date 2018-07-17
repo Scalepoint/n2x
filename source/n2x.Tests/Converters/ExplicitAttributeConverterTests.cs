@@ -56,7 +56,7 @@ namespace n2x.Tests.Converters
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -68,7 +68,7 @@ namespace n2x
         {
         }
     }
-}");
+}", code);
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace n2x
         {
             var code = Compilation.ToFullString();
 
-            Assert.Equal(code,
+            Assert.Equal(
                 @"using NUnit.Framework;
 
 namespace n2x
@@ -133,7 +133,7 @@ namespace n2x
         {
         }
     }
-}");
+}", code);
         }
 
         [Fact]
